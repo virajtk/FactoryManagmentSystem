@@ -1,4 +1,4 @@
-package login_System;
+package com.interfaces;
 
 import java.awt.EventQueue;
 
@@ -19,8 +19,6 @@ import java.awt.event.ActionEvent;
 import java.awt.SystemColor;
 import java.awt.Toolkit;
 import javax.swing.SwingConstants;
-
-import MainUI.mainUI;
 import javax.swing.border.LineBorder;
 
 public class Login_S {

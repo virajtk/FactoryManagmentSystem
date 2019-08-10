@@ -1,4 +1,4 @@
-package MainUI;
+package com.interfaces;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
