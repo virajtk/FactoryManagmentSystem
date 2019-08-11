@@ -21,11 +21,15 @@ import java.awt.Toolkit;
 import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
 
+import com.util.DbConnect;
+
 public class Login_S {
 
 	private JFrame frmLoginSystem;
 	private JTextField txtUsername;
 	private JPasswordField txtPassword;
+	
+	private static Connection connection ;
 
 	/**
 	 * Launch the application.
@@ -102,10 +106,14 @@ public class Login_S {
 		btnLogin.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
+				
+				
 				try{
-					Class.forName("com.mysql.jdbc.Driver");
-					Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/unic", "root", "root");
-					Statement stmt = con.createStatement();
+					//Class.forName("com.mysql.jdbc.Driver");
+					//Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/unic", "root", "root");
+					connection = DbConnect.getDBConnection();
+					
+					Statement stmt = connection.createStatement();
 					
 					String sql = "SELECT * FROM user WHERE username = '" + txtUsername.getText() + "' AND password = '" + txtPassword.getText().toString() + "'";
 					ResultSet rs = stmt.executeQuery(sql);
@@ -126,7 +134,7 @@ public class Login_S {
 						txtUsername.setText(null);
 						txtPassword.setText(null);
 					}
-					con.close();
+					connection.close();
 				}catch(Exception e1) {
 					System.out.println(e1);
 				}

@@ -10,10 +10,10 @@ import javax.swing.JOptionPane;
 public class DbConnect {
 	public static Connection getDBConnection() throws ClassNotFoundException, SQLException, InstantiationException, IllegalAccessException {
 		Connection connection;
-		String dbURL = "jdbc:mysql://localhost:3306/ordermanagement" ;
+		String dbURL = "jdbc:mysql://localhost:3306/unic" ;
 		String dbDriver = "com.mysql.jdbc.Driver";
 		String dbUsername = "root" ;
-		String dbPassword = "tharindu123";
+		String dbPassword = "root";
 		
 		Class.forName(dbDriver).newInstance();
 		connection = DriverManager.getConnection(dbURL,dbUsername , dbPassword);
