@@ -15,6 +15,8 @@ public class DbConnect {
 		String dbUsername = "root" ;
 		String dbPassword = "root";
 		
+		try {
+		
 		Class.forName(dbDriver).newInstance();
 		connection = DriverManager.getConnection(dbURL,dbUsername , dbPassword);
 
@@ -26,6 +28,11 @@ public class DbConnect {
 
 		
 		return connection ;
+		
+		}catch(Exception e) {
+			JOptionPane.showMessageDialog(null, e);
+			return null;
+		}
 	}
 	
 
