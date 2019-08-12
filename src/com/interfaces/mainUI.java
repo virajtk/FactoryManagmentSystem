@@ -47,7 +47,7 @@ public class mainUI extends JFrame {
 	 * Create the frame.
 	 */
 	public mainUI() {
-		setIconImage(Toolkit.getDefaultToolkit().getImage(mainUI.class.getResource("/UNIClogo.png")));
+		setIconImage(Toolkit.getDefaultToolkit().getImage(mainUI.class.getResource("/icons8-home-50.png")));
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1190, 604);
 		contentPane = new JPanel();

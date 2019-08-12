@@ -19,6 +19,7 @@ public class DbConnect {
 		
 		Class.forName(dbDriver).newInstance();
 		connection = DriverManager.getConnection(dbURL,dbUsername , dbPassword);
+		JOptionPane.showMessageDialog(null, "Database Connection Successfull!");
 
 		if (connection == null || connection.isClosed() ) {
 			JOptionPane.showMessageDialog(null, "Error Connection");

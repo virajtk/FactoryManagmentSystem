@@ -39,7 +39,7 @@ public class info extends JFrame {
 	 * Create the frame.
 	 */
 	public info() {
-		setIconImage(Toolkit.getDefaultToolkit().getImage(info.class.getResource("/javax/swing/plaf/metal/icons/ocean/info.png")));
+		setIconImage(Toolkit.getDefaultToolkit().getImage(info.class.getResource("/UNIClogo.png")));
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 742, 615);
 		contentPane = new JPanel();
