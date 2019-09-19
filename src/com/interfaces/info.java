@@ -9,11 +9,13 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
 import javax.swing.ImageIcon;
 import java.awt.Font;
+import java.awt.Image;
 import java.awt.Color;
 import java.awt.SystemColor;
 import javax.swing.SwingConstants;
 import javax.swing.JTextPane;
 import java.awt.Toolkit;
+import javax.swing.border.LineBorder;
 
 public class info extends JFrame {
 
@@ -39,6 +41,7 @@ public class info extends JFrame {
 	 * Create the frame.
 	 */
 	public info() {
+		setTitle("Info");
 		setIconImage(Toolkit.getDefaultToolkit().getImage(info.class.getResource("/UNIClogo.png")));
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 742, 615);
@@ -46,6 +49,7 @@ public class info extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
+		this.setLocationRelativeTo(null);
 		
 		JLabel label = new JLabel("");
 		label.setIcon(new ImageIcon(info.class.getResource("/UNIClogo.png")));
@@ -88,14 +92,22 @@ public class info extends JFrame {
 		contentPane.add(lblCompany);
 		
 		JLabel lblTeam = new JLabel("Team </Scorpion>");
-		lblTeam.setFont(new Font("Times New Roman", Font.PLAIN, 20));
+		lblTeam.setFont(new Font("Sui Generis", Font.PLAIN, 20));
 		lblTeam.setHorizontalAlignment(SwingConstants.CENTER);
-		lblTeam.setBounds(82, 365, 549, 115);
+		lblTeam.setBounds(97, 272, 549, 35);
 		contentPane.add(lblTeam);
 		
 		JLabel lblDevaloper = new JLabel("Devaloper");
 		lblDevaloper.setFont(new Font("Haettenschweiler", Font.PLAIN, 30));
-		lblDevaloper.setBounds(28, 309, 308, 43);
+		lblDevaloper.setBounds(28, 251, 308, 43);
 		contentPane.add(lblDevaloper);
+		
+		JLabel teamPhoto = new JLabel("");
+		teamPhoto.setHorizontalAlignment(SwingConstants.CENTER);
+		teamPhoto.setBorder(new LineBorder(new Color(192, 192, 192), 4));
+		teamPhoto.setBounds(70, 313, 555, 230);
+		contentPane.add(teamPhoto);
+		Image img = new ImageIcon(this.getClass().getResource("/ITP team.jpg")).getImage();
+		teamPhoto.setIcon(new ImageIcon(img));
 	}
 }

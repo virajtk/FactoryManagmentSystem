@@ -3,6 +3,9 @@ package com.interfaces;
 import java.awt.EventQueue;
 
 import java.sql.*;
+import java.util.Arrays;
+import java.util.Scanner;
+
 import javax.swing.JFrame;
 import java.awt.Color;
 import javax.swing.JLabel;
@@ -26,6 +29,11 @@ import javax.swing.border.LineBorder;
 import com.util.DbConnect;
 import javax.swing.UIManager;
 import javax.swing.JPanel;
+import javax.swing.JDesktopPane;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 public class Login_S {
 
@@ -33,7 +41,8 @@ public class Login_S {
 	private JTextField txtUsername;
 	private JPasswordField txtPassword;
 	
-	private static Connection connection = null;
+	private static Connection connection = null; 
+	private JLabel lblLblusernoti;
 
 	/**
 	 * Launch the application.
@@ -69,12 +78,14 @@ public class Login_S {
 	 */
 	private void initialize() {
 		frmLoginSystem = new JFrame();
+		frmLoginSystem.setResizable(false);
 		frmLoginSystem.setIconImage(Toolkit.getDefaultToolkit().getImage(Login_S.class.getResource("/user-login-icon.png")));
 		frmLoginSystem.setTitle("User Login");
 		frmLoginSystem.getContentPane().setBackground(SystemColor.textHighlight);
 		frmLoginSystem.setBounds(200, 200, 690, 425);
 		frmLoginSystem.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frmLoginSystem.getContentPane().setLayout(null);
+		frmLoginSystem.setLocationRelativeTo(null);
 		
 		JLabel lblUserLogin = new JLabel("   User Login");
 		lblUserLogin.setHorizontalAlignment(SwingConstants.CENTER);
@@ -100,28 +111,33 @@ public class Login_S {
 				
 				
 				try{
-					//Class.forName("com.mysql.jdbc.Driver");
-					//Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/unic", "root", "root");
-					if (txtPassword.getText()==null | txtUsername.getText()==null) {
-						JOptionPane.showMessageDialog(null, "Invalid Login Details", "Login Error", JOptionPane.ERROR_MESSAGE);
+					
+					
+					
+					String query = "SELECT * FROM user_main WHERE username = ? AND password = ? "; 
+					PreparedStatement pst = connection.prepareStatement(query);
+					
+					pst.setString(1, txtUsername.getText());
+					pst.setString(2, txtPassword.getText());
+					
+					ResultSet rs = pst.executeQuery();
+				
+					
+					if (txtPassword.getText().isEmpty() == true | txtUsername.getText().isEmpty() == true) {
+						JOptionPane.showMessageDialog(null, "Please Fill Login Details", "Login Error", JOptionPane.ERROR_MESSAGE);
 						txtUsername.setText(null);
 						txtPassword.setText(null);
 					}
-					
-					String query = "SELECT * FROM user_main WHERE username = ? AND password = ? ";
-					PreparedStatement pst = connection.prepareStatement(query);
-					pst.setNString(1, txtUsername.getText());
-					pst.setString(2, txtPassword.getText());
-					ResultSet rs = pst.executeQuery();
-					if (rs.next()) {
+					else if (rs.next() ) { //&& !Arrays.equals(pass, txtPassword.getPassword())
 						txtUsername.setText(null);
 						txtPassword.setText(null);
 						JOptionPane.showMessageDialog(null, "Login Sucessfully");
+					
 						frmLoginSystem.dispose();
-						mainUI mn = new mainUI();
-						mn.main(null);
+						mainUI mainui = new mainUI(rs.getString("EID"));
+						mainui.setVisible(true);
 						
-						connection.close();
+						//connection.close();
 						
 					}
 					else {
@@ -129,6 +145,9 @@ public class Login_S {
 						txtUsername.setText(null);
 						txtPassword.setText(null);
 					}
+					
+					rs.close();
+					pst.close();
 					
 					
 				}catch(Exception e1) {
@@ -171,7 +190,7 @@ public class Login_S {
 				frmLoginSystem = new JFrame("Exit");
 				if (JOptionPane.showConfirmDialog(frmLoginSystem, "Confirm if you really want to exit", "Login Exit Confirmation" ,
 						JOptionPane.YES_NO_OPTION) == JOptionPane.YES_NO_OPTION ){
-						System.exit(0);
+						System.exit(JFrame.EXIT_ON_CLOSE);
 				}
 				
 				
@@ -187,24 +206,45 @@ public class Login_S {
 		JButton btnCreateAcc = new JButton("Create an Account");
 		btnCreateAcc.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				Registation reg = new Registation();
-				reg.main(null);
+				Registation reg;
+				try {
+					reg = new Registation();
+					reg.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				
 			}
 		});
 		btnCreateAcc.setForeground(new Color(25, 25, 112));
-		btnCreateAcc.setBackground(new Color(255, 255, 255));
+		btnCreateAcc.setBackground(new Color(240, 230, 140));
 		btnCreateAcc.setBorder(new LineBorder(new Color(0, 0, 0), 1, true));
 		btnCreateAcc.setFont(new Font("Tahoma", Font.PLAIN, 11));
-		btnCreateAcc.setBounds(285, 363, 144, 23);
+		btnCreateAcc.setBounds(285, 363, 144, 29);
 		frmLoginSystem.getContentPane().add(btnCreateAcc);
 		
 		JPanel panel = new JPanel();
-		panel.setBackground(new Color(0, 0, 51));
+		panel.setBackground(Color.BLACK);
 		panel.setBounds(10, 11, 670, 403);
 		frmLoginSystem.getContentPane().add(panel);
 		panel.setLayout(null);
 		
 		txtUsername = new JTextField();
+		txtUsername.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyReleased(KeyEvent arg0) {
+				String userName = txtUsername.getText();
+				
+				if ( !userName.matches("[a-zA-Z0-9 ,]+") ) {
+					lblLblusernoti.setText("Please Enter Valide User Name");
+					txtUsername.setText(null);
+					//txtLName.requestFocusInWindow();
+				}
+				else {
+					lblLblusernoti.setText(null);
+				}
+			}
+		});
 		txtUsername.setBounds(242, 130, 279, 35);
 		panel.add(txtUsername);
 		txtUsername.setBorder(new LineBorder(new Color(0, 0, 0), 1, true));
@@ -238,6 +278,18 @@ public class Login_S {
 		JSeparator separator = new JSeparator();
 		separator.setBounds(10, 265, 648, 2);
 		panel.add(separator);
+		
+		JLabel lblNewLabel = new JLabel("");
+		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNewLabel.setIcon(new ImageIcon(Login_S.class.getResource("/brick-dealers-vqxqr.png")));
+		lblNewLabel.setForeground(SystemColor.text);
+		lblNewLabel.setBounds(0, 0, 670, 403);
+		panel.add(lblNewLabel);
+		
+		lblLblusernoti = new JLabel("");
+		lblLblusernoti.setForeground(SystemColor.text);
+		lblLblusernoti.setBounds(242, 166, 279, 16);
+		panel.add(lblLblusernoti);
 		
 		frmLoginSystem.setUndecorated(true);
 	}
