@@ -9,9 +9,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 import com.util.DbConnect;
-//import com.interfaces.Shifting;
+import com.interfaces.Shifting;
 import com.model.ShiftingM;
-//import com.mysql.cj.xdevapi.PreparableStatement;
 
 
 
@@ -51,7 +50,7 @@ public class ShiftingServices {
 			
 			connection = DbConnect.getDBConnection();
 			
-			String deleteShifting = "delete from Shisting where Shifting.shiftingID = ?";
+			String deleteShifting = "DELETE FROM shifting WHERE Shifting.shiftingID = ?";
 			
 			preStatement = connection.prepareStatement(deleteShifting);
 			preStatement.setString(1, shiftingID);
@@ -127,7 +126,7 @@ public class ShiftingServices {
 			ResultSet shiftingIDs = preStatement.executeQuery();
 			
 			while (shiftingIDs.next()) {
-				shiftingID_List.add(shiftingIDs.getString(0));	
+				shiftingID_List.add(shiftingIDs.getString(1));	
 			}
 			
 		} catch (Exception e) {

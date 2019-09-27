@@ -98,7 +98,7 @@ preStatement = connection.prepareStatement(addRmM);
 		try {
 			connection = DbConnect.getDBConnection();
 			
-			String deleteSupplier = "DELETE FROM unic.supplier WHERE supplierID = ?";
+			String deleteSupplier = "DELETE FROM unic.raw_material WHERE rawID = ?";
 			
 			preStatement = connection.prepareStatement(deleteSupplier);
 			
@@ -106,7 +106,7 @@ preStatement = connection.prepareStatement(addRmM);
 			
 			
 			preStatement.executeUpdate() ;
-			JOptionPane.showMessageDialog(null, "Supplier Removed Sucessfully....");
+			JOptionPane.showMessageDialog(null, "Raw Material Removed Sucessfully....");
 			
 		}catch(Exception e) {
 			JOptionPane.showMessageDialog(null, e);
@@ -115,7 +115,60 @@ preStatement = connection.prepareStatement(addRmM);
 		
 	}		
 		
+	
+	
+	public ArrayList<String> getRawMatID(){
+		ArrayList<String>rawMatID_List = new ArrayList<String>();
 		
+		try {
+			String rawMatQuary = "SELECT rawID FROM unic.raw_material";
+			connection = DbConnect.getDBConnection();
+			preStatement = connection.prepareStatement(rawMatQuary);
+			ResultSet rawMatIDs = preStatement.executeQuery();
+			
+			while (rawMatIDs.next()) {
+				rawMatID_List.add(rawMatIDs.getString(1));	
+			}
+			
+		} catch (Exception e) {
+			// TODO: handle exception
+		}finally {
+			try {
+				if (preStatement != null) {
+					preStatement.close();
+				}
+				if(connection != null) {
+					connection.close();
+				}
+			}catch(SQLException e) {
+				
+			}finally {
+				
+				try {
+					
+					
+					if(preStatement != null);{
+						
+						preStatement.close();
+						
+					}
+					
+					if(connection != null) {
+						
+						connection.close();
+					}
+				
+				} catch (Exception e) {
+					
+				}
+			}
+		}
+		
+		return rawMatID_List;
+	}
+	
+	
+
 		
 }
 	

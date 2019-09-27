@@ -1,2 +1,12 @@
 eclipse.preferences.version=1
+encoding//Reports/AttendanceDetails.jrxml=UTF-8
+encoding//Reports/Order.jrxml=UTF-8
+encoding//Reports/OrderDone.jrxml=UTF-8
+encoding//Reports/Salary.jrxml=UTF-8
+encoding//Reports/Store.jrxml=UTF-8
+encoding//Reports/Supply.jrxml=UTF-8
+encoding//Reports/Transport.jrxml=UTF-8
+encoding//Reports/employeeDetails.jrxml=UTF-8
+encoding//Reports/production.jrxml=UTF-8
 encoding//src/com/util/Attendance.jrxml=UTF-8
+encoding//src/com/util/attendanceReport.jrxml=UTF-8

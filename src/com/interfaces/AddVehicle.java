@@ -131,6 +131,7 @@ public class AddVehicle extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
+		this.setLocationRelativeTo(null);
 		
 		JLabel lblNewLabel = new JLabel("Vehicle Name");
 		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 18));

@@ -33,6 +33,8 @@ public class StoreQuantityDisplay extends JFrame {
 	private JTextField textField;
 	private static PreparedStatement preparedStatement;
 	private static Connection connection;
+	private JTable table_1;
+	private JTable table_2;
 	
 	public void storeDisplay() {
 		try {
@@ -107,7 +109,7 @@ public class StoreQuantityDisplay extends JFrame {
 		panel_1.setLayout(null);
 		
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(28, 147, 1047, 414);
+		scrollPane.setBounds(28, 147, 1047, 175);
 		panel_1.add(scrollPane);
 		
 		table = new JTable();
@@ -170,10 +172,47 @@ public class StoreQuantityDisplay extends JFrame {
 		panel_3.add(textField);
 		textField.setColumns(10);
 		
+		table_1 = new JTable();
+		table_1.setBounds(46, 371, 18, -16);
+		panel_1.add(table_1);
+		
+		JScrollPane scrollPane_1 = new JScrollPane();
+		scrollPane_1.setBounds(28, 430, 1047, 131);
+		panel_1.add(scrollPane_1);
+		
+		table_2 = new JTable();
+		scrollPane_1.setViewportView(table_2);
+		
 		JPanel panel_2 = new JPanel();
 		panel_2.setBackground(new Color(0, 0, 51));
 		panel_2.setBounds(12, 112, 1106, 14);
 		contentPane.add(panel_2);
 		panel_2.setLayout(null);
+		
+		
+		try {
+			String selectStore = "SELECT rawID,amount FROM unic.supply;";
+			connection = DbConnect.getDBConnection();
+			preparedStatement = connection.prepareStatement(selectStore);
+			ResultSet resultSet = preparedStatement.executeQuery();
+			table_2.setModel(DbUtils.resultSetToTableModel(resultSet));
+			
+			JPanel panel_4 = new JPanel();
+			panel_4.setBounds(28, 337, 1047, 70);
+			panel_1.add(panel_4);
+			panel_4.setLayout(null);
+			
+			
+			JLabel lblRawMaterialsDisplay = new JLabel("Raw Materials Display");
+			lblRawMaterialsDisplay.setHorizontalAlignment(SwingConstants.CENTER);
+			lblRawMaterialsDisplay.setBounds(0, 0, 280, 70);
+			panel_4.add(lblRawMaterialsDisplay);
+			lblRawMaterialsDisplay.setForeground(SystemColor.desktop);
+			lblRawMaterialsDisplay.setBackground(SystemColor.desktop);
+			lblRawMaterialsDisplay.setFont(new Font("Showcard Gothic", Font.BOLD, 18));
+		} catch (Exception e) {
+			
+		}
+		
 	}
 }

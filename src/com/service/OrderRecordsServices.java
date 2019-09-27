@@ -21,6 +21,32 @@ public class OrderRecordsServices {
 	
 	private int prodctAvailableCount;
 	
+	public ResultSet produtTypeFill() {
+		try {
+			String selectProductName= "select distinct productName from unic.product";
+			connection = DbConnect.getDBConnection();
+			preStatement = connection.prepareStatement(selectProductName);
+			ResultSet productSet = preStatement.executeQuery();
+			
+			return productSet;
+			
+		} catch (Exception e) {
+			// TODO: handle exception
+			JOptionPane.showMessageDialog(null, e);
+			return null;
+		}finally {
+			try {
+				if (preStatement != null) {
+					preStatement.close();
+				}
+				if(connection != null) {
+					connection.close();
+				}
+			}catch(SQLException e) {
+				
+			}
+		}
+	}
 	
 	public int chekAvailability(String productID) {
 		try {
@@ -35,25 +61,6 @@ public class OrderRecordsServices {
 			
 		} catch (Exception e) {
 			// TODO: handle exception
-		}finally {
-			
-			try {
-				
-				
-				if(preStatement != null);{
-					
-					preStatement.close();
-					
-				}
-				
-				if(connection != null) {
-					
-					connection.close();
-				}
-			
-			} catch (Exception e) {
-				
-			}
 		}
 		
 		return prodctAvailableCount;
@@ -81,10 +88,10 @@ public class OrderRecordsServices {
 			preStatement.setString(10, order.getLocation());
 			preStatement.setString(11, order.getRemark());
 			
-			System.out.println(preStatement);
+	
 			
 			preStatement.executeUpdate() ;
-			JOptionPane.showMessageDialog(null, "Order Inserted Sucessfully....");
+			JOptionPane.showMessageDialog(null, "Order Placed Sucessfully....");
 			connection.commit();
 			
 		} catch(SQLException | ClassNotFoundException | InstantiationException | IllegalAccessException e) {
@@ -101,25 +108,6 @@ public class OrderRecordsServices {
 				}
 			}catch(SQLException e) {
 				
-			}finally {
-				
-				try {
-					
-					
-					if(preStatement != null);{
-						
-						preStatement.close();
-						
-					}
-					
-					if(connection != null) {
-						
-						connection.close();
-					}
-				
-				} catch (Exception e) {
-					
-				}
 			}
 		}
 	}
@@ -146,25 +134,6 @@ public class OrderRecordsServices {
 				}
 			}catch(SQLException e) {
 				
-			}finally {
-				
-				try {
-					
-					
-					if(preStatement != null);{
-						
-						preStatement.close();
-						
-					}
-					
-					if(connection != null) {
-						
-						connection.close();
-					}
-				
-				} catch (Exception e) {
-					
-				}
 			}
 			
 		}
@@ -198,25 +167,6 @@ public class OrderRecordsServices {
 			return resultSet;
 		} catch (Exception e) {
 			return null;
-		}finally {
-			
-			try {
-				
-				
-				if(preStatement != null);{
-					
-					preStatement.close();
-					
-				}
-				
-				if(connection != null) {
-					
-					connection.close();
-				}
-			
-			} catch (Exception e) {
-				
-			}
 		}
 	}
 	
@@ -236,25 +186,6 @@ public class OrderRecordsServices {
 			
 		} catch (Exception e) {
 			// TODO: handle exception
-		}finally {
-			
-			try {
-				
-				
-				if(preStatement != null);{
-					
-					preStatement.close();
-					
-				}
-				
-				if(connection != null) {
-					
-					connection.close();
-				}
-			
-			} catch (Exception e) {
-				
-			}
 		}
 		//return productID;
 		return supervicerID;
@@ -286,25 +217,6 @@ public class OrderRecordsServices {
 				}
 			}catch(SQLException e) {
 				
-			}finally {
-				
-				try {
-					
-					
-					if(preStatement != null);{
-						
-						preStatement.close();
-						
-					}
-					
-					if(connection != null) {
-						
-						connection.close();
-					}
-				
-				} catch (Exception e) {
-					
-				}
 			}
 		}
 		
@@ -320,25 +232,6 @@ public class OrderRecordsServices {
 			preStatement.executeUpdate();
 		} catch (Exception e) {
 			// TODO: handle exception
-		}finally {
-			
-			try {
-				
-				
-				if(preStatement != null);{
-					
-					preStatement.close();
-					
-				}
-				
-				if(connection != null) {
-					
-					connection.close();
-				}
-			
-			} catch (Exception e) {
-				
-			}
 		}
 		
 	}

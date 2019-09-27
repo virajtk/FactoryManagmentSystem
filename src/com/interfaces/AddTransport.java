@@ -6,6 +6,8 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.Font;
 import javax.swing.JFormattedTextField;
 import javax.swing.JToggleButton;
@@ -28,6 +30,8 @@ import java.sql.ResultSet;
 import java.text.SimpleDateFormat;
 import java.awt.event.ActionEvent;
 import javax.swing.JComboBox;
+import javax.swing.SwingConstants;
+import java.awt.SystemColor;
 
 public class AddTransport extends JFrame {
 
@@ -48,6 +52,11 @@ public class AddTransport extends JFrame {
 	Connection con = null;
 	
 	SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+	private JComboBox orderBox;
+	private JComboBox driverBox;
+	
+	private int warnin_message_button = JOptionPane.YES_NO_OPTION;
+	private int warning_message_result;
 	
 	public void vehiclIdFill() {
 		try {
@@ -65,6 +74,38 @@ public class AddTransport extends JFrame {
 		}
 	}
 	
+	public void orderIdFill() {
+		try {
+			
+			String selectOrderId= "select * from unic.order WHERE remarks = 'Processing'";
+			connection = DbConnect.getDBConnection();
+			preStatement = connection.prepareStatement(selectOrderId);
+			ResultSet orderSet = preStatement.executeQuery();
+			
+			while(orderSet.next()) {
+				orderBox.addItem(orderSet.getString("orderID"));
+			}
+			
+		} catch (Exception e) {
+			e.setStackTrace(null);
+		}
+	}
+	public void driverIdFill() {
+		try {
+			
+			String selectDriverId= "SELECT * FROM user_main WHERE Role='Driver'";
+			connection = DbConnect.getDBConnection();
+			preStatement = connection.prepareStatement(selectDriverId);
+			ResultSet DriverSet = preStatement.executeQuery();
+			
+			while(DriverSet.next()) {
+				driverBox.addItem(DriverSet.getString("EID"));
+			}
+			
+		} catch (Exception e) {
+			e.setStackTrace(null);
+		}
+	}
 	
 	
 	/**
@@ -96,124 +137,138 @@ public class AddTransport extends JFrame {
 		
 		
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setBounds(100, 100, 1109, 667);
+		setBounds(100, 100, 916, 595);
 		contentPane = new JPanel();
-		contentPane.setBackground(new Color(255, 222, 173));
+		contentPane.setBackground(new Color(255, 250, 205));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
+		this.setLocationRelativeTo(null);
+		
 		
 		JLabel lblTransportId = new JLabel("Transport ID");
 		lblTransportId.setFont(new Font("Tahoma", Font.BOLD, 18));
-		lblTransportId.setBounds(172, 125, 166, 22);
+		lblTransportId.setBounds(256, 138, 166, 22);
 		contentPane.add(lblTransportId);
 		
 		JLabel lblOrderId = new JLabel("Order ID");
 		lblOrderId.setFont(new Font("Tahoma", Font.BOLD, 18));
-		lblOrderId.setBounds(172, 179, 166, 22);
+		lblOrderId.setBounds(256, 192, 166, 22);
 		contentPane.add(lblOrderId);
 		
 		JLabel lblVehicaleId = new JLabel("Vehicle ID");
 		lblVehicaleId.setFont(new Font("Tahoma", Font.BOLD, 18));
-		lblVehicaleId.setBounds(172, 236, 166, 22);
+		lblVehicaleId.setBounds(256, 249, 166, 22);
 		contentPane.add(lblVehicaleId);
 		
 		JLabel lblDriverId = new JLabel("Driver ID");
 		lblDriverId.setFont(new Font("Tahoma", Font.BOLD, 18));
-		lblDriverId.setBounds(172, 291, 166, 28);
+		lblDriverId.setBounds(256, 304, 166, 28);
 		contentPane.add(lblDriverId);
 		
 		JLabel lblDate = new JLabel("Date");
 		lblDate.setFont(new Font("Tahoma", Font.BOLD, 18));
-		lblDate.setBounds(172, 354, 166, 22);
+		lblDate.setBounds(256, 367, 166, 22);
 		contentPane.add(lblDate);
 		
 		textTransportId = new JTextField();
+		textTransportId.setEditable(false);
 		textTransportId.setFont(new Font("Tahoma", Font.BOLD, 18));
-		textTransportId.setBounds(407, 121, 198, 34);
+		textTransportId.setBounds(434, 127, 198, 34);
 		contentPane.add(textTransportId);
 		textTransportId.setColumns(10);
 		
-		JButton btnReset = new JButton("RESET");
-		btnReset.setBackground(new Color(255, 255, 255));
-		btnReset.setFont(new Font("Tahoma", Font.BOLD, 18));
-		btnReset.setBounds(190, 488, 107, 43);
-		contentPane.add(btnReset);
-		
 		JButton btnAdd = new JButton("ADD");
+		btnAdd.setForeground(Color.WHITE);
 		btnAdd.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				
 				transportModel.setTransportID(textTransportId.getText());
-				//transportModel.setOrderID(textOrderID.getText());
-				//transportModel.setDriverID(textDriverID.getText());
-				//transportModel.setVehicleID(textVehicle.getText());
-				transportModel.setDate(dateFormat.format(dateF.getDate()).toString());
-				
-				
+				transportModel.setOrderID(orderBox.getSelectedItem().toString());
+				transportModel.setDriverID(driverBox.getSelectedItem().toString());
+				transportModel.setVehicleID(vehicleBox.getSelectedItem().toString());
+				transportModel.setDate(dateFormat.format(dateF.getDate()).toString());	
 				
 				transportService.addTransport(transportModel);
 				
 				//resetFields();
 				
+				textTransportId.setText(generator.transportID_Generator(transportService.transportID()));
 				
 				
 			}
 		});
-		btnAdd.setBackground(new Color(255, 255, 255));
-		btnAdd.setFont(new Font("Tahoma", Font.BOLD, 18));
-		btnAdd.setBounds(407, 488, 107, 43);
+		btnAdd.setBackground(new Color(255, 165, 0));
+		btnAdd.setFont(new Font("Tahoma", Font.BOLD, 20));
+		btnAdd.setBounds(397, 436, 127, 58);
 		contentPane.add(btnAdd);
 		
 		JButton btnExit = new JButton("EXIT");
+		btnExit.setForeground(new Color(255, 255, 255));
 		btnExit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+					
+				warning_message_result = JOptionPane.showConfirmDialog (null, "Do you want to exit","Warning",warnin_message_button);
+				
+				if(warning_message_result == JOptionPane.YES_OPTION){
+					
 				Transports trans=new Transports();
 				trans.setVisible(true);
 				dispose();
+				}
 			}
 		});
-		btnExit.setBackground(new Color(255, 255, 255));
+		btnExit.setBackground(new Color(220, 20, 60));
 		btnExit.setFont(new Font("Tahoma", Font.BOLD, 18));
-		btnExit.setBounds(615, 488, 107, 43);
+		btnExit.setBounds(583, 444, 107, 43);
 		contentPane.add(btnExit);
 		
 		JPanel panel = new JPanel();
 		panel.setLayout(null);
-		panel.setBackground(new Color(0, 102, 204));
-		panel.setBounds(0, 0, 1091, 81);
+		panel.setBackground(SystemColor.textHighlight);
+		panel.setBounds(0, 0, 910, 81);
 		contentPane.add(panel);
 		
 		JLabel lblAddTransport = new JLabel("Add Transport");
+		lblAddTransport.setHorizontalAlignment(SwingConstants.CENTER);
 		lblAddTransport.setForeground(Color.WHITE);
 		lblAddTransport.setFont(new Font("Showcard Gothic", Font.BOLD, 30));
-		lblAddTransport.setBounds(383, 13, 279, 42);
+		lblAddTransport.setBounds(12, 13, 884, 55);
 		panel.add(lblAddTransport);
 		
 		JPanel panel_1 = new JPanel();
-		panel_1.setBackground(Color.BLACK);
-		panel_1.setBounds(0, 86, 1091, 10);
+		panel_1.setBackground(new Color(0, 0, 51));
+		panel_1.setBounds(0, 81, 910, 10);
 		contentPane.add(panel_1);
 		
 		 dateF = new JDateChooser();
+		 dateF.getCalendarButton().setFont(new Font("Tahoma", Font.PLAIN, 18));
 		dateF.setDateFormatString("yyyy-MM-dd");
-		dateF.setBounds(407, 354, 198, 34);
+		dateF.setBounds(434, 360, 198, 34);
 		contentPane.add(dateF);
 		
 		textTransportId.setText(generator.transportID_Generator(transportService.transportID()));
 		
-		JComboBox comboBox = new JComboBox();
-		comboBox.setBounds(407, 179, 198, 34);
-		contentPane.add(comboBox);
+		orderBox = new JComboBox();
+		orderBox.setToolTipText("Select");
+		orderBox.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		orderBox.setBounds(434, 185, 198, 34);
+		contentPane.add(orderBox);
 		
 		vehicleBox = new JComboBox();
-		vehicleBox.setBounds(407, 238, 198, 34);
+		vehicleBox.setToolTipText("Select");
+		vehicleBox.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		vehicleBox.setBounds(434, 244, 198, 34);
 		contentPane.add(vehicleBox);
 		
-		JComboBox comboBox_2 = new JComboBox();
-		comboBox_2.setBounds(407, 290, 198, 34);
-		contentPane.add(comboBox_2);
+		driverBox = new JComboBox();
+		driverBox.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		driverBox.setBounds(434, 296, 198, 34);
+		contentPane.add(driverBox);
 		
 		vehiclIdFill();
+		orderIdFill();
+		driverIdFill();
+		
 	}
 }

@@ -844,6 +844,7 @@ public class ManageUser extends JFrame {
 				panel.add(scrollPane);
 				
 				table = new JTable();
+				table.setRowHeight(25);
 				table.setSurrendersFocusOnKeystroke(true);
 				table.setShowVerticalLines(false);
 				table.setFont(new Font("Tahoma", Font.PLAIN, 16));

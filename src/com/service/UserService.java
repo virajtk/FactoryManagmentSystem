@@ -1,5 +1,6 @@
 package com.service;
 
+import java.sql.Blob;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -75,19 +76,23 @@ public class UserService implements IUserService {
 	public void updateUser(String EID, User user) {
 		try {
 			connection = DbConnect.getDBConnection();
+		
 			
 			String updateUserQuery = "UPDATE user_main SET  username = '"+user.getUsername()+"',"
 					+ " fname = '"+user.getfName()+"', lname = '"+user.getlName()+"', BasicSalary = '"+user.getBasicSalary()+"',"
 							+ " OTRate = '"+user.getOTRate()+"', BankAccountNo = '"+user.getBankAccNo()+"', Role = '"+user.getRole()+"',"
 									+ " NICNo = '"+user.getNICNo()+"', ContactNo = '"+user.getContactNo()+"',"
 									+ " Email = '"+user.getEmail()+"', Address = '"+user.getAddress()+"', Reference = '"+user.getRefferance()+"', DrivingLicenceNo = '"+user.getDrivingLicenceNo()+"'"
-											+ ", proPicture = '"+user.getProPicture()+"'"
+											+ ", proPicture = ?"
 											+ " WHERE (EID = '"+EID+"')";
+			
+			
 	
 			
-			preStatement = connection.prepareStatement(updateUserQuery);
+			PreparedStatement psst = connection.prepareStatement(updateUserQuery);
+			psst.setBlob(1, user.getProPicture());
 			
-			preStatement.executeUpdate() ; 			//execute query
+			psst.executeUpdate() ; 			//execute query
 			
 			JOptionPane.showMessageDialog(null, "Employee : "+EID+"\nProfile Updated Sucessfully!");
 			

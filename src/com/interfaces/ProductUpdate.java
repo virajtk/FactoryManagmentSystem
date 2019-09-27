@@ -28,19 +28,20 @@ import javax.swing.SwingConstants;
 import javax.swing.JComboBox;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import javax.swing.DefaultComboBoxModel;
 
 
 
 public class ProductUpdate extends JFrame {
 
 	private JPanel contentPane;
-	private JTextField textField;
-	private JTextField textField_1;
-	private JTextField textField_2;
-	private JTextField textField_3;
-	private JTextField textField_4;
-	private JTextField textField_5;
+	private JTextField txtUnitPrice;
+	private JTextField txtProductName;
 	private JTextField txtProductID;
+	private JComboBox cmbCategory;
+	private JComboBox cmbShape;
+	private JComboBox cmbColour;
+	private JComboBox cmbStrenght;
 	
 	private static Connection connection;
 	private PreparedStatement preparedStatement;
@@ -72,26 +73,22 @@ public class ProductUpdate extends JFrame {
 	private void updateProductText() {
 		
 		product.setProductId(txtProductID.getText());
-		product.setProductName(textField_2.getText());
-		product.setUnitPrice(Double.parseDouble(textField.getText()));
-		product.setCategory(textField_4.getText());
-		product.setColour(textField_5.getText());
-		product.setStrength(Integer.parseInt(textField_3.getText()));
-		product.setShape(textField_1.getText());
+		product.setProductName(txtProductName.getText());
+		product.setUnitPrice(Double.parseDouble(txtUnitPrice.getText()));
+		product.setCategory(cmbCategory.getSelectedItem().toString());
+		product.setColour(cmbColour.getSelectedItem().toString());
+		product.setStrength(Integer.parseInt(cmbStrenght.getSelectedItem().toString()));
+		product.setShape(cmbShape.getSelectedItem().toString());
 		
 	}
 
 	public boolean validateUpdateProduct() {
 	
-		boolean validate1 = txtProductID.getText().matches("^[PR0-9]*$")&&txtProductID.getText().length()<=6;
-		boolean validate2 = textField_2.getText().matches("^[a-zA-Z]*$")&&textField_2.getText().length()>=1;
-		boolean validate3 = textField.getText().matches("^[0-9.]*$")&&textField.getText().length()>=1;
-		boolean validate4 = textField_4.getText().matches("^[a-zA-Z]*$")&&textField_4.getText().length()>=1;
-		boolean validate5 = textField_5.getText().matches("^[a-zA-Z]*$")&&textField_5.getText().length()>=1;
-		boolean validate6 = textField_3.getText().matches("^[0-9]*$")&&textField_3.getText().length()>=1;
-		boolean validate7 = textField_1.getText().matches("^[a-zA-Z]*$")&&textField_1.getText().length()>=1;
-	
-		if (validate1 && validate2 && validate3 && validate4 && validate5 && validate6 && validate7) {
+		boolean validate1 = txtProductID.getText().matches("^[PR0-9]*$")&&txtProductID.getText().length() == 6;
+		boolean validate2 = txtProductName.getText().matches("^[a-zA-Z]*$")&&txtProductName.getText().length()>=1;
+		boolean validate3 = txtUnitPrice.getText().matches("^[0-9.]*$")&&txtUnitPrice.getText().length()>=1;
+
+		if (validate1 && validate2 && validate3 && cmbCategory.getSelectedIndex() != 0 && cmbColour.getSelectedIndex() != 0 &&  cmbStrenght.getSelectedIndex() != 0 && cmbStrenght.getSelectedIndex() != 0 ) {
 			return true;
 		}
 		else {
@@ -179,35 +176,15 @@ public class ProductUpdate extends JFrame {
 		label_5.setBounds(674, 410, 200, 26);
 		panel_1.add(label_5);
 		
-		textField = new JTextField();
-		textField.setColumns(10);
-		textField.setBounds(183, 216, 400, 36);
-		panel_1.add(textField);
+		txtUnitPrice = new JTextField();
+		txtUnitPrice.setColumns(10);
+		txtUnitPrice.setBounds(183, 216, 400, 50);
+		panel_1.add(txtUnitPrice);
 		
-		textField_1 = new JTextField();
-		textField_1.setColumns(10);
-		textField_1.setBounds(674, 342, 400, 36);
-		panel_1.add(textField_1);
-		
-		textField_2 = new JTextField();
-		textField_2.setColumns(10);
-		textField_2.setBounds(183, 100, 400, 36);
-		panel_1.add(textField_2);
-		
-		textField_3 = new JTextField();
-		textField_3.setColumns(10);
-		textField_3.setBounds(674, 451, 400, 36);
-		panel_1.add(textField_3);
-		
-		textField_4 = new JTextField();
-		textField_4.setColumns(10);
-		textField_4.setBounds(183, 342, 400, 36);
-		panel_1.add(textField_4);
-		
-		textField_5 = new JTextField();
-		textField_5.setColumns(10);
-		textField_5.setBounds(183, 451, 400, 36);
-		panel_1.add(textField_5);
+		txtProductName = new JTextField();
+		txtProductName.setColumns(10);
+		txtProductName.setBounds(183, 100, 400, 50);
+		panel_1.add(txtProductName);
 		
 		JButton button = new JButton("Submit");
 		button.setBackground(new Color(30, 144, 255));
@@ -263,9 +240,29 @@ public class ProductUpdate extends JFrame {
 		panel_1.add(label_6);
 		
 		txtProductID = new JTextField();
-		txtProductID.setBounds(674, 100, 400, 36);
+		txtProductID.setBounds(674, 100, 400, 50);
 		panel_1.add(txtProductID);
 		txtProductID.setColumns(10);
+		
+		cmbCategory = new JComboBox();
+		cmbCategory.setModel(new DefaultComboBoxModel(new String[] {"Please Select...", "Mold", "Machine"}));
+		cmbCategory.setBounds(183, 349, 400, 50);
+		panel_1.add(cmbCategory);
+		
+		cmbShape = new JComboBox();
+		cmbShape.setModel(new DefaultComboBoxModel(new String[] {"Please select shape", "Block", "Dumble", "Cross Dumble", "Round Dumble", "Square", "Unipaver\t", "Cube", "Fan", "Wave", "Hexagon", "Trihex ", "Trihex Groove", "Mirror"}));
+		cmbShape.setBounds(674, 351, 400, 50);
+		panel_1.add(cmbShape);
+		
+		cmbStrenght = new JComboBox();
+		cmbStrenght.setModel(new DefaultComboBoxModel(new String[] {"Please select strenght", "10", "15", "20", "25", "30", "35", "40", "45", "50"}));
+		cmbStrenght.setBounds(674, 449, 400, 50);
+		panel_1.add(cmbStrenght);
+		
+		cmbColour = new JComboBox();
+		cmbColour.setModel(new DefaultComboBoxModel(new String[] {"Please select colour", "Natural", "Red", "Black", "Brown", "Yellow", "Blue", "White", "Green"}));
+		cmbColour.setBounds(183, 449, 400, 50);
+		panel_1.add(cmbColour);
 		
 		JPanel panel_2 = new JPanel();
 		panel_2.setBackground(SystemColor.textHighlight);
@@ -295,12 +292,13 @@ public class ProductUpdate extends JFrame {
 		while(resultSet.next()) {
 			
 			txtProductID.setText(resultSet.getString("productID"));
-			textField_2.setText(resultSet.getString("productName"));
-			textField.setText(resultSet.getString("unitPrice"));
-			textField_4.setText(resultSet.getString("category"));
-			textField_5.setText(resultSet.getString("colour"));
-			textField_3.setText(resultSet.getString("strength_N"));
-			textField_1.setText(resultSet.getString("shape"));
+			txtProductName.setText(resultSet.getString("productName"));
+			txtUnitPrice.setText(resultSet.getString("unitPrice"));
+			cmbCategory.setSelectedItem(resultSet.getString("category"));
+			cmbColour.setSelectedItem(resultSet.getString("colour"));
+			cmbStrenght.setSelectedItem(resultSet.getString("strength_N"));
+			cmbShape.setSelectedItem(resultSet.getString("shape"));
+			
 			
 	
 		}

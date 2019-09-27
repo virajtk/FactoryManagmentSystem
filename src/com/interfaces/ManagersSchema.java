@@ -312,6 +312,7 @@ public class ManagersSchema extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
+		this.setLocationRelativeTo(null);
 		
 		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
 		tabbedPane.setBounds(5, 90, 942, 481);
@@ -683,7 +684,6 @@ public class ManagersSchema extends JFrame {
 		btnDelete.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				
-				System.out.println(IsSchemaCheckEmpty());
 				if (IsSchemaCheckEmpty() == true) {
 					JOptionPane.showMessageDialog(null, "Please Select Schema Details to Verify Before do This Process, Because This Process Can't be Undone..");
 				} else {
@@ -767,5 +767,24 @@ public class ManagersSchema extends JFrame {
 		lblNotify.setForeground(new Color(139, 0, 0));
 		lblNotify.setBounds(424, 5, 293, 16);
 		addSchema.add(lblNotify);
+		
+		JButton btnDemo = new JButton("DEMO");
+		btnDemo.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				
+				txtot.setText("0");
+				txtpp1.setText("10");
+				txtpp2.setText("12");
+				txtpp3.setText("14");
+				txtpp4.setText("16");
+				txtpp5.setText("18");
+				
+				
+			}
+		});
+		btnDemo.setForeground(new Color(178, 34, 34));
+		btnDemo.setFont(new Font("! PEPSI !", Font.PLAIN, 13));
+		btnDemo.setBounds(828, 13, 97, 25);
+		addSchema.add(btnDemo);
 	}
 }

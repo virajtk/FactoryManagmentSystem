@@ -78,6 +78,7 @@ public class AddWorker extends JFrame {
 	private JDateChooser dateChooserBDay;
 	private JDateChooser dateChooserRegDate;
 	private JLabel lblNotify;
+	private JButton buttonDemo;
 
 	/**
 	 * Launch the application.
@@ -785,21 +786,7 @@ public class AddWorker extends JFrame {
 		btnReset.setForeground(new Color(255, 255, 255));
 		btnReset.setBackground(new Color(30, 144, 255));
 		btnReset.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-		
-//				txtLName.setText(null);
-//				txtContactNo.setText(null);
-//				txtEmail.setText(null);
-//				txtAddress.setText(null);
-//				txtNIC.setText(null);
-//				txtUserName.setText(null);
-//				txtFName.setText(null);
-//				txtBankNo.setText(null);
-//				txtbasicSalary.setText(null);
-//				txtOTRate.setText(null);
-//				txtRefRole.setText(null);
-//				txtEID.setText(null);
-				
+			public void actionPerformed(ActionEvent arg0) {			
 				try {
 					resetFields();
 				} catch (ClassNotFoundException | InstantiationException | IllegalAccessException | SQLException e) {
@@ -818,7 +805,7 @@ public class AddWorker extends JFrame {
 		btnExit.setBackground(new Color(178, 34, 34));
 		btnExit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+				dispose();
 			}
 		});
 		panel.add(btnExit);
@@ -892,5 +879,29 @@ public class AddWorker extends JFrame {
 		lblNotify.setHorizontalAlignment(SwingConstants.LEFT);
 		lblNotify.setBounds(53, 347, 311, 14);
 		panel.add(lblNotify);
+		
+		buttonDemo = new JButton("DEMO");
+		buttonDemo.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				
+				txtUserName.setText("saman");
+				txtFName.setText("Saman");
+				txtLName.setText("Premadasa");
+				txtAddress.setText("Hambanthota");
+				txtBankNo.setText("2238789658245");
+				txtNIC.setText("850274390V");
+				txtContactNo.setText("0773217998");
+				txtEmail.setText("saman@unic.lk");
+				txtbasicSalary.setText("20000");
+				txtOTRate.setText("100");
+				txtRefRole.setText("E0003");
+				txtDrivingLNo.setText("987584685400145");
+				
+			}
+		});
+		buttonDemo.setForeground(new Color(178, 34, 34));
+		buttonDemo.setFont(new Font("! PEPSI !", Font.BOLD, 12));
+		buttonDemo.setBounds(662, 13, 100, 33);
+		panel.add(buttonDemo);
 	}
 }

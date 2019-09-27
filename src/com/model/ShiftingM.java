@@ -3,6 +3,7 @@ package com.model;
 public class ShiftingM {
 	
 	private String shiftingID;
+	private String supID;
 	private String diliveryID;
 	private String shifter1;
 	private String shifter2;
@@ -37,6 +38,14 @@ public class ShiftingM {
 	
 	public void setShifter2(String shifter2) {
 		this.shifter2 = shifter2;
+	}
+
+	public String getSupID() {
+		return supID;
+	}
+
+	public void setSupID(String supID) {
+		this.supID = supID;
 	}
 	
 	

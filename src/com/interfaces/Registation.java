@@ -100,6 +100,7 @@ public class Registation extends JFrame {
 	private JTextField txtFilePath;
 	private JDateChooser dateChooserRegDate;
 	private JLabel lblNotify;
+	private JButton btnDemo;
 	
 	public void resetFields() throws ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException {
 		passwordField.setText(null);
@@ -305,6 +306,31 @@ public class Registation extends JFrame {
 		JLabel lblPassword = new JLabel("Password*");
 		lblPassword.setBounds(77, 61, 113, 14);
 		panel.add(lblPassword);
+		
+		btnDemo = new JButton("DEMO");
+		btnDemo.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				
+				txtUserName.setText("nuwan");
+				passwordField.setText("12345");
+				passwordField2.setText("12345");
+				txtFName.setText("Nuwan");
+				txtLName.setText("Kodagoda");
+				txtAddress.setText("Malabe");
+				txtBankNo.setText("1008789658245");
+				txtNIC.setText("801205390V");
+				txtContactNo.setText("0711070226");
+				txtEmail.setText("nuwan@unic.lk");
+				txtbasicSalary.setText("100000");
+				txtOTRate.setText("100");
+				txtRefRole.setText("E0002");	
+				
+			}
+		});
+		btnDemo.setForeground(new Color(178, 34, 34));
+		btnDemo.setFont(new Font("! PEPSI !", Font.BOLD, 12));
+		btnDemo.setBounds(721, 11, 100, 33);
+		panel.add(btnDemo);
 		
 		JLabel lblReenterPassword = new JLabel("Confirm Password*");
 		lblReenterPassword.setBounds(77, 86, 113, 14);
@@ -770,6 +796,7 @@ public class Registation extends JFrame {
 			}
 		});
 		panel.add(btnReset);
+		Image imgDemo = new ImageIcon(this.getClass().getResource("/add-icon.png")).getImage();
 		
 		JButton btnExit = new JButton("Exit");
 		Image img3 = new ImageIcon(this.getClass().getResource("/Alarm-Error-icon.png")).getImage();
@@ -892,5 +919,8 @@ public class Registation extends JFrame {
 		btnRegister.setFont(new Font("Tahoma", Font.BOLD, 16));
 		btnRegister.setBounds(354, 414, 113, 47);
 		panel.add(btnRegister);
+		
+		
+		
 	}
 }

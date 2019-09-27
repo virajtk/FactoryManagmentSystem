@@ -66,6 +66,14 @@ public class mainUI extends JFrame {
 	private JTable tableOrders;
 	Connection connection = null;
 	private JScrollPane scrollPane;
+	private JButton btnDashBoard;
+	private JButton btnOrder;
+	private JButton btnStore;
+	private JButton btnSupply;
+	private JButton btnEmployee;
+	private JButton btnProduction;
+	private JButton btnTransport;
+	private JButton btnSalary;
 	
 
 	/**
@@ -215,10 +223,34 @@ try {
 		mnUser.add(separator_2);
 		
 		JMenuItem mntmAddWorker = new JMenuItem("Add Worker");
+		mntmAddWorker.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					AddWorker ad = new AddWorker();
+					ad.setVisible(true);
+				} catch (ClassNotFoundException | InstantiationException | IllegalAccessException | SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				
+			}
+		});
 		mntmAddWorker.setFont(new Font("Segoe UI", Font.PLAIN, 19));
 		mnUser.add(mntmAddWorker);
 		
 		JMenuItem mntmManageEmployee = new JMenuItem("Manage Employee");
+		mntmManageEmployee.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					ManageUser mu = new ManageUser();
+					mu.setVisible(true);
+				} catch (ClassNotFoundException | InstantiationException | IllegalAccessException | SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				
+			}
+		});
 		mntmManageEmployee.setFont(new Font("Segoe UI", Font.PLAIN, 19));
 		mnUser.add(mntmManageEmployee);
 		
@@ -226,6 +258,17 @@ try {
 		mnUser.add(separator);
 		
 		JMenuItem mntmLogOut = new JMenuItem("Log Out");
+		mntmLogOut.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				dispose();
+				try {
+					Login_S login = new Login_S();
+					login.main(null);;
+				} catch (ClassNotFoundException | InstantiationException | IllegalAccessException | SQLException e1) {
+					JOptionPane.showMessageDialog(null, e1);
+				}
+			}
+		});
 		mntmLogOut.setFont(new Font("Segoe UI", Font.PLAIN, 19));
 		mnUser.add(mntmLogOut);
 		
@@ -246,6 +289,12 @@ try {
 		menuBar.add(mnOrder);
 		
 		JMenuItem mntmManageOrders = new JMenuItem("Manage Orders");
+		mntmManageOrders.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				MainOrderInterface order = new MainOrderInterface();
+				order.setVisible(true);
+			}
+		});
 		mntmManageOrders.setFont(new Font("Segoe UI", Font.PLAIN, 19));
 		mnOrder.add(mntmManageOrders);
 		
@@ -253,27 +302,137 @@ try {
 		mnProduction.setFont(new Font("Segoe UI", Font.PLAIN, 20));
 		menuBar.add(mnProduction);
 		
+		JMenuItem mntmProduction = new JMenuItem("Production");
+		mntmProduction.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					Production production = new Production();
+					production.setVisible(true);
+				} catch (ClassNotFoundException | InstantiationException | IllegalAccessException | SQLException e1) {
+					
+					e1.printStackTrace();
+				}
+			}
+		});
+		mnProduction.add(mntmProduction);
+		
+		JMenuItem mntmShifting = new JMenuItem("Shifting");
+		mnProduction.add(mntmShifting);
+		
 		JMenu mnStore = new JMenu("Store");
 		mnStore.setFont(new Font("Segoe UI", Font.PLAIN, 20));
 		menuBar.add(mnStore);
+		
+		JMenuItem mntmProducts = new JMenuItem("Products");
+		mntmProducts.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				StockMain product = new StockMain();
+				product.setVisible(true);
+			}
+		});
+		mnStore.add(mntmProducts);
+		
+		JMenuItem mntmStore = new JMenuItem("Store");
+		mntmStore.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				StoreQuantityDisplay store = new StoreQuantityDisplay();
+				store.setVisible(true);
+			}
+		});
+		mnStore.add(mntmStore);
 		
 		JMenu mnSupply = new JMenu("Supply");
 		mnSupply.setFont(new Font("Segoe UI", Font.PLAIN, 20));
 		menuBar.add(mnSupply);
 		
+		JMenuItem mntmSupplier = new JMenuItem("Supplier");
+		mntmSupplier.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				AddS se = new AddS();
+				se.setVisible(true);
+			}
+		});
+		mnSupply.add(mntmSupplier);
+		
+		JMenuItem mntmRawMaterial = new JMenuItem("Raw Material");
+		mntmRawMaterial.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Rm r = new Rm();
+				r.setVisible(true);
+			}
+		});
+		mnSupply.add(mntmRawMaterial);
+		
+		JMenuItem mntmSupply = new JMenuItem("Supply");
+		mntmSupply.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				AddNewRawM supply = new AddNewRawM();
+				supply.setVisible(true);
+			}
+		});
+		mnSupply.add(mntmSupply);
+		
 		JMenu mnTransport = new JMenu("Transport");
 		mnTransport.setFont(new Font("Segoe UI", Font.PLAIN, 20));
 		menuBar.add(mnTransport);
 		
+		JMenuItem mntmVehicle = new JMenuItem("Vehicle");
+		mntmVehicle.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Vehical ve=new Vehical();
+				ve.setVisible(true);
+			}
+		});
+		mnTransport.add(mntmVehicle);
+		
+		JMenuItem mntmTransport = new JMenuItem("Transport");
+		mntmTransport.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Transports trns=new Transports();
+				trns.setVisible(true);
+			}
+		});
+		mnTransport.add(mntmTransport);
+		
+		JMenuItem mntmGenerateDailyRouts = new JMenuItem("Generate Daily Routs");
+		mnTransport.add(mntmGenerateDailyRouts);
+		
 		JMenu mnSalary = new JMenu("Salary");
 		mnSalary.setFont(new Font("Segoe UI", Font.PLAIN, 20));
 		menuBar.add(mnSalary);
+		
+		JMenuItem mntmNewMenuItem = new JMenuItem("Manage Schema");
+		mntmNewMenuItem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					ManagersSchema manageSchema = new ManagersSchema();
+					manageSchema.setVisible(true);
+					}catch (Exception e1) {
+						e1.printStackTrace();
+					}
+			}
+		});
+		mnSalary.add(mntmNewMenuItem);
+		
+		JMenuItem mntmGenerateReports = new JMenuItem("Generate Reports");
+		mntmGenerateReports.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+			}
+		});
+		mnSalary.add(mntmGenerateReports);
 		
 		JMenu mnAbout = new JMenu("About");
 		mnAbout.setFont(new Font("Segoe UI", Font.PLAIN, 20));
 		menuBar.add(mnAbout);
 		
 		JMenuItem mntmSystemInfo = new JMenuItem("System Info");
+		mntmSystemInfo.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				info in = new info();
+				in.main(null);
+			}
+		});
 		mntmSystemInfo.setFont(new Font("Segoe UI", Font.PLAIN, 19));
 		mnAbout.add(mntmSystemInfo);
 		contentPane = new JPanel();
@@ -339,6 +498,7 @@ try {
 			public void actionPerformed(ActionEvent e) {
 				
 				Profile profile = null;
+				dispose();
 				try {
 					profile = new Profile(logUser.getEID());
 				} catch (ClassNotFoundException | InstantiationException | IllegalAccessException | SQLException e1) {
@@ -349,12 +509,13 @@ try {
 			}
 		});
 		btnLogUser.setForeground(Color.WHITE);
-		btnLogUser.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		btnLogUser.setFont(new Font("Tahoma", Font.BOLD, 20));
 		btnLogUser.setFocusPainted(false);
 		btnLogUser.setBackground(new Color(210, 105, 30));
 		Header.add(btnLogUser);
 		
 		JLabel lblUserRole = new JLabel(logUser.getRole());
+		lblUserRole.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		lblUserRole.setBounds(923, 53, 130, 24);
 		lblUserRole.setForeground(new Color(255, 255, 255));
 		lblUserRole.setBackground(new Color(255, 165, 0));
@@ -382,7 +543,8 @@ try {
 		contentPane.add(body);
 		body.setLayout(null);
 		
-		JButton btnDashBoard = new JButton(" DashBoard");
+		btnDashBoard = new JButton(" DashBoard");
+		btnDashBoard.setEnabled(false);
 		btnDashBoard.setIcon(new ImageIcon(mainUI.class.getResource("/Home-icon.png")));
 		
 		btnDashBoard.addActionListener(new ActionListener() {
@@ -397,6 +559,15 @@ try {
 				panelSupply.setVisible(false);
 				panelSalary.setVisible(false);
 				
+				btnOrder.setEnabled(true);
+				btnDashBoard.setEnabled(false);
+				btnEmployee.setEnabled(true);
+				btnProduction.setEnabled(true);
+				btnTransport.setEnabled(true);
+				btnSupply.setEnabled(true);
+				btnStore.setEnabled(true);
+				btnSalary.setEnabled(true);
+				
 				showTableOrders();
 				
 			}
@@ -408,7 +579,7 @@ try {
 		btnDashBoard.setBounds(0, 0, 248, 100);
 		body.add(btnDashBoard);
 		
-		JButton btnOrder = new JButton(" Order");
+		btnOrder = new JButton(" Order");
 		btnOrder.setIcon(new ImageIcon(mainUI.class.getResource("/Order-history-icon.png")));
 		btnOrder.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -420,6 +591,15 @@ try {
 				panelTransport.setVisible(false);
 				panelSupply.setVisible(false);
 				panelSalary.setVisible(false);
+				
+				btnOrder.setEnabled(false);
+				btnDashBoard.setEnabled(true);
+				btnEmployee.setEnabled(true);
+				btnProduction.setEnabled(true);
+				btnTransport.setEnabled(true);
+				btnSupply.setEnabled(true);
+				btnStore.setEnabled(true);
+				btnSalary.setEnabled(true);
 			}
 		});
 		
@@ -431,7 +611,7 @@ try {
 		btnOrder.setBounds(0, 98, 248, 100);
 		body.add(btnOrder);
 		
-		JButton btnStore = new JButton(" Store");
+		btnStore = new JButton(" Store");
 		btnStore.setIcon(new ImageIcon(mainUI.class.getResource("/Shop-icon.png")));
 		btnStore.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -445,6 +625,15 @@ try {
 				panelSupply.setVisible(false);
 				panelSalary.setVisible(false);
 				
+				
+				btnOrder.setEnabled(true);
+				btnDashBoard.setEnabled(true);
+				btnEmployee.setEnabled(true);
+				btnProduction.setEnabled(true);
+				btnTransport.setEnabled(true);
+				btnSupply.setEnabled(true);
+				btnStore.setEnabled(false);
+				btnSalary.setEnabled(true);
 			}
 		});
 		btnStore.setSelectedIcon(new ImageIcon(mainUI.class.getResource("/javax/swing/plaf/basic/icons/image-delayed.png")));
@@ -454,7 +643,7 @@ try {
 		btnStore.setBounds(0, 196, 248, 100);
 		body.add(btnStore);
 		
-		JButton btnSupply = new JButton("Supply");
+		btnSupply = new JButton("Supply");
 		btnSupply.setIcon(new ImageIcon(mainUI.class.getResource("/User-Group-icon.png")));
 		btnSupply.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -468,6 +657,16 @@ try {
 				panelTransport.setVisible(false);
 				panelSalary.setVisible(false);
 				
+				
+				btnOrder.setEnabled(true);
+				btnDashBoard.setEnabled(true);
+				btnEmployee.setEnabled(true);
+				btnProduction.setEnabled(true);
+				btnTransport.setEnabled(true);
+				btnSupply.setEnabled(false);
+				btnStore.setEnabled(true);
+				btnSalary.setEnabled(true);
+				
 			}
 		});
 		btnSupply.setSelectedIcon(new ImageIcon(mainUI.class.getResource("/javax/swing/plaf/basic/icons/image-delayed.png")));
@@ -477,7 +676,7 @@ try {
 		btnSupply.setBounds(0, 296, 248, 100);
 		body.add(btnSupply);
 		
-		JButton btnEmployee = new JButton(" Employee");
+		btnEmployee = new JButton(" Employee");
 		
 		btnEmployee.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -490,6 +689,15 @@ try {
 				panelTransport.setVisible(false);
 				panelSupply.setVisible(false);
 				panelSalary.setVisible(false);
+				
+				btnOrder.setEnabled(true);
+				btnDashBoard.setEnabled(true);
+				btnEmployee.setEnabled(false);
+				btnProduction.setEnabled(true);
+				btnTransport.setEnabled(true);
+				btnSupply.setEnabled(true);
+				btnStore.setEnabled(true);
+				btnSalary.setEnabled(true);
 			}
 		});
 		btnEmployee.setIcon(null);
@@ -500,7 +708,7 @@ try {
 		btnEmployee.setIcon(new ImageIcon(mainUI.class.getResource("/user-settings-icon.png")));
 		body.add(btnEmployee);
 		
-		JButton btnProduction = new JButton(" Production");
+		btnProduction = new JButton(" Production");
 		btnProduction.setIcon(new ImageIcon(mainUI.class.getResource("/coal-power-plant-icon.png")));
 		btnProduction.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -514,6 +722,15 @@ try {
 				panelSupply.setVisible(false);
 				panelSalary.setVisible(false);
 				
+				btnOrder.setEnabled(true);
+				btnDashBoard.setEnabled(true);
+				btnEmployee.setEnabled(true);
+				btnProduction.setEnabled(false);
+				btnTransport.setEnabled(true);
+				btnSupply.setEnabled(true);
+				btnStore.setEnabled(true);
+				btnSalary.setEnabled(true);
+				
 			}
 		});
 		btnProduction.setSelectedIcon(new ImageIcon(mainUI.class.getResource("/javax/swing/plaf/basic/icons/image-delayed.png")));
@@ -523,7 +740,7 @@ try {
 		btnProduction.setBounds(924, 98, 248, 100);
 		body.add(btnProduction);
 		
-		JButton btnTransport = new JButton(" Transport");
+		btnTransport = new JButton(" Transport");
 		btnTransport.setIcon(new ImageIcon(mainUI.class.getResource("/data-transport-icon.png")));
 		btnTransport.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -537,6 +754,14 @@ try {
 				panelSupply.setVisible(false);
 				panelSalary.setVisible(false);
 				
+				btnOrder.setEnabled(true);
+				btnDashBoard.setEnabled(true);
+				btnEmployee.setEnabled(true);
+				btnProduction.setEnabled(true);
+				btnTransport.setEnabled(false);
+				btnSupply.setEnabled(true);
+				btnStore.setEnabled(true);
+				btnSalary.setEnabled(true);
 				
 			}
 		});
@@ -547,7 +772,7 @@ try {
 		btnTransport.setBounds(924, 196, 248, 100);
 		body.add(btnTransport);
 		
-		JButton btnSalary = new JButton(" Salary");
+		btnSalary = new JButton(" Salary");
 		btnSalary.setIcon(new ImageIcon(mainUI.class.getResource("/payment-icon.png")));
 		btnSalary.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -560,6 +785,15 @@ try {
 				panelProduction.setVisible(false);
 				panelStore.setVisible(false);
 				panelSupply.setVisible(false);
+				
+				btnOrder.setEnabled(true);
+				btnDashBoard.setEnabled(true);
+				btnEmployee.setEnabled(true);
+				btnProduction.setEnabled(true);
+				btnTransport.setEnabled(true);
+				btnSupply.setEnabled(true);
+				btnStore.setEnabled(true);
+				btnSalary.setEnabled(false);
 				
 			}
 		});
@@ -612,7 +846,7 @@ try {
 		panelDashBoard.add(scrollPane);
 		
 		tableOrders = new JTable();
-		tableOrders.setRowHeight(20);
+		tableOrders.setRowHeight(25);
 		tableOrders.setRowSelectionAllowed(false);
 		tableOrders.setFocusable(false);
 		tableOrders.setFont(new Font("Tahoma", Font.PLAIN, 16));
@@ -692,8 +926,15 @@ try {
 		btnAttendance.setBackground(new Color(210, 105, 30));
 		btnAttendance.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				Attendance attendance = new Attendance();
-				attendance.setVisible(true);
+				Attendance attendance;
+				try {
+					attendance = new Attendance();
+					attendance.setVisible(true);
+				} catch (ClassNotFoundException | InstantiationException | IllegalAccessException | SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				
 			}
 		});
 		btnAttendance.setBounds(240, 253, 201, 43);
@@ -811,6 +1052,14 @@ try {
 		panelProduction.add(btnProductionMng);
 		
 		JButton btnShifting = new JButton("Shifting");
+		btnShifting.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				Shifting shifting = new Shifting();
+				shifting.setVisible(true);
+				
+			}
+		});
 		btnShifting.setFont(new Font("Tahoma", Font.BOLD, 18));
 		btnShifting.setBackground(new Color(210, 105, 30));
 		btnShifting.setForeground(SystemColor.text);
@@ -895,6 +1144,56 @@ try {
 		panelSalary.add(btnManageSchema);
 		
 		JButton btnGenerateReports = new JButton("Generate Reports");
+		btnGenerateReports.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				try {
+					
+					String query = "SELECT distinct EID,OTHours,OTRate,BasicSalary,BankAccountNo,FName,LName FROM user_main u, attendance a WHERE u.EID = a.employeeID";
+					PreparedStatement pst;
+					pst = connection.prepareStatement(query);
+					ResultSet rs = pst.executeQuery();
+					
+					System.out.println("EID\t\tName\t\tOT Hours\tOT Rate\t\tBasic Salary\tGross\t\tEPFE\t\tDeduction\tBankAcc");
+					
+					while (rs.next()) {
+						String Eid = rs.getString("EID");
+						String name = rs.getString("FName");
+						Double othours = rs.getDouble("OTHours");
+						Double otrate = rs.getDouble("OTRate");
+						Double basicSalary = rs.getDouble("BasicSalary");
+						
+						Double grossPay = basicSalary + (otrate*othours);
+						Double EPFE = grossPay * 0.08;
+						Double deduction = grossPay - EPFE;
+						String bankAcc = rs.getString("BankAccountNo");
+						
+						String insertQuery = "INSERT INTO unic.schema_employee(eID,grossPay,deduction,EPFE)VALUES(?,?,?,?)";
+						PreparedStatement psst = connection.prepareStatement(insertQuery);
+						psst.setString(1, Eid);
+						psst.setDouble(2, grossPay);
+						psst.setDouble(3, deduction);
+						psst.setDouble(4, EPFE);
+						psst.executeUpdate();
+						
+						
+						System.out.println(Eid +"\t\t"+name+"\t\t"+ othours+"\t\t"+otrate+"\t\t"+basicSalary+"\t\t"+grossPay+"\t\t"+EPFE+"\t\t"+deduction+"\t\t"+bankAcc);
+						
+						
+					}
+					
+					JOptionPane.showMessageDialog(null, "Salary Calculated and Inserted temp Table Succesfully!!!");
+					
+				
+				} catch (Exception e1) {
+					JOptionPane.showMessageDialog(null, e1.getMessage());
+				}
+				
+				
+				
+				
+			}
+		});
 		btnGenerateReports.setForeground(SystemColor.text);
 		btnGenerateReports.setBackground(new Color(210, 105, 30));
 		btnGenerateReports.setFont(new Font("Tahoma", Font.BOLD, 18));

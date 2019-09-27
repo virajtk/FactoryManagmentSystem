@@ -40,7 +40,7 @@ public class ClientRecordsServices {
 			preStatement.setString(8, client.getClientAddress());
 			
 			preStatement.executeUpdate() ;
-			JOptionPane.showMessageDialog(null, "Record Inserted Sucessfully....");			
+			JOptionPane.showMessageDialog(null, "Client Inserted Sucessfully....");			
 			connection.commit();
 			
 		} catch(SQLException | ClassNotFoundException | InstantiationException | IllegalAccessException e) {
@@ -118,25 +118,6 @@ public class ClientRecordsServices {
 				}
 			}catch(SQLException e) {
 				
-			}finally {
-				
-				try {
-					
-					
-					if(preStatement != null);{
-						
-						preStatement.close();
-						
-					}
-					
-					if(connection != null) {
-						
-						connection.close();
-					}
-				
-				} catch (Exception e) {
-					
-				}
 			}
 			
 		}
@@ -153,25 +134,6 @@ public class ClientRecordsServices {
 			return resultSet;
 		} catch (Exception e) {
 			return null;
-		}finally {
-			
-			try {
-				
-				
-				if(preStatement != null);{
-					
-					preStatement.close();
-					
-				}
-				
-				if(connection != null) {
-					
-					connection.close();
-				}
-			
-			} catch (Exception e) {
-				
-			}
 		}
 	}
 	
@@ -202,25 +164,6 @@ public class ClientRecordsServices {
 				}
 			}catch(SQLException e) {
 				
-			}finally {
-				
-				try {
-					
-					
-					if(preStatement != null);{
-						
-						preStatement.close();
-						
-					}
-					
-					if(connection != null) {
-						
-						connection.close();
-					}
-				
-				} catch (Exception e) {
-					
-				}
 			}
 		}
 		

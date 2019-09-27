@@ -121,8 +121,10 @@ public class StockDelete extends JFrame {
 				
 				if (war_result == JOptionPane.YES_OPTION) {
 				
-				product.setProductId(comboBox_1.getSelectedItem().toString());
-				productService.pDelete(product.getProductId());
+				//product.setProductId(comboBox_1.getSelectedItem().toString());
+				productService.pDelete(comboBox_1.getSelectedItem().toString());
+				comboBox_1.removeItem(comboBox_1.getSelectedItem().toString());
+				//showProductID2();
 				
 				}
 				

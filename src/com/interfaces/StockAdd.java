@@ -10,6 +10,7 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import com.util.DbConnect;
+import com.util.ID_Generator;
 import com.model.*;
 import com.service.ProductService;
 
@@ -26,47 +27,50 @@ import java.awt.event.ActionEvent;
 import java.awt.SystemColor;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import javax.swing.JComboBox;
+import javax.swing.DefaultComboBoxModel;
 
 public class StockAdd extends JFrame {
 
 	private JPanel contentPane;
-	private JTextField textField;
-	private JTextField textField_1;
-	private JTextField textField_2;
-	private JTextField textField_3;
-	private JTextField textField_4;
-	private JTextField textField_5;
-	private JTextField textField_6;
+	private JTextField txtUnitPrice;
+	private JTextField txtProductName;
+	private JComboBox cmbCategory;
+	private JComboBox cmbShape;
+	private JComboBox cmbColor;
+	private JComboBox cmbStrenght;
+	
+	
 	
 	private int war_button = JOptionPane.YES_NO_OPTION;
 	private int war_result;
 	
 	ProductService productService = new ProductService();
+	ID_Generator id_Generator = new ID_Generator();
 	Product product = new Product();
+	private JTextField txtProductID;
 	
 	private void setStoreText() {
 		
-		product.setProductId(textField_2.getText());
-		product.setProductName(textField_6.getText());
-		product.setUnitPrice(Double.parseDouble(textField.getText()));
-		product.setCategory(textField_4.getText());
-		product.setColour(textField_5.getText());
-		product.setStrength(Integer.parseInt(textField_3.getText()));
-		product.setShape(textField_1.getText());
+		product.setProductId(txtProductID.getText());
+		product.setProductName(txtProductName.getText());
+		product.setUnitPrice(Double.parseDouble(txtUnitPrice.getText()));
+		product.setCategory(cmbCategory.getSelectedItem().toString());
+		product.setColour(cmbColor.getSelectedItem().toString());
+		product.setStrength(Integer.parseInt(cmbStrenght.getSelectedItem().toString()));  
+		product.setShape(cmbShape.getSelectedItem().toString());
 		
 	}
 	
 	public boolean validateAddProduct() {
-		boolean validate1 = textField_2.getText().matches("^[PR0-9]*$")&&textField_2.getText().length()<=6;
-		boolean validate2 = textField_6.getText().matches("^[a-zA-Z]*$")&&textField_6.getText().length()>=1;
-		boolean validate3 = textField.getText().matches("^[0-9.]*$")&&textField.getText().length()>=1;
-		boolean validate4 = textField_4.getText().matches("^[a-zA-Z]*$")&&textField_4.getText().length()>=1;
-		boolean validate5 = textField_5.getText().matches("^[a-zA-Z]*$")&&textField_5.getText().length()>=1;
-		boolean validate6 = textField_3.getText().matches("^[0-9]*$")&&textField_3.getText().length()>=1;
-		boolean validate7 = textField_1.getText().matches("^[a-zA-Z]*$")&&textField_1.getText().length()>=1;
 		
-		if (validate1 && validate2 && validate3 && validate4 && validate5 && validate6 && validate7) {
-			 return true;
+		boolean validate2 = txtProductName.getText().matches("^[a-zA-Z]*$")&&txtProductName.getText().length()>=1;
+		boolean validate3 = txtUnitPrice.getText().matches("^[0-9.]*$")&&txtUnitPrice.getText().length()>=1;
+
+		
+		if (validate2 && validate3 && cmbCategory.getSelectedIndex() != 0 && cmbColor.getSelectedIndex() != 0 &&  cmbStrenght.getSelectedIndex() != 0 && cmbStrenght.getSelectedIndex() != 0) {
+			return true;
+			 
 		}
 		else {
 			return false;
@@ -138,48 +142,12 @@ public class StockAdd extends JFrame {
 		lblNewLabel_5.setBounds(679, 415, 200, 30);
 		panel.add(lblNewLabel_5);
 		
-		textField = new JTextField();
-		textField.setBounds(188, 221, 400, 36);
-		panel.add(textField);
-		textField.setColumns(10);
+		txtUnitPrice = new JTextField();
+		txtUnitPrice.setBounds(188, 221, 400, 50);
+		panel.add(txtUnitPrice);
+		txtUnitPrice.setColumns(10);
 		
-		textField_1 = new JTextField();
-		textField_1.setBounds(679, 347, 400, 36);
-		panel.add(textField_1);
-		textField_1.setColumns(10);
-		
-		textField_2 = new JTextField();
-		textField_2.setBounds(679, 103, 400, 36);
-		panel.add(textField_2);
-		textField_2.setColumns(10);
-		
-		textField_3 = new JTextField();
-		textField_3.addKeyListener(new KeyAdapter() {
-			@Override
-			public void keyReleased(KeyEvent arg0) {
-				boolean validate6 = textField_3.getText().matches("^[0-9]*$");
-				if (validate6) {
-					
-				} else {
-						JOptionPane.showMessageDialog(null, "Please enter number value!");
-				}
-			}
-		});
-		textField_3.setBounds(679, 456, 400, 36);
-		panel.add(textField_3);
-		textField_3.setColumns(10);
-		
-		textField_4 = new JTextField();
-		textField_4.setBounds(188, 347, 400, 36);
-		panel.add(textField_4);
-		textField_4.setColumns(10);
-		
-		textField_5 = new JTextField();
-		textField_5.setBounds(188, 456, 400, 36);
-		panel.add(textField_5);
-		textField_5.setColumns(10);
-		
-		JButton btnSubmit = new JButton("Update");
+		JButton btnSubmit = new JButton("Add");
 		btnSubmit.setBackground(new Color(30, 144, 255));
 		btnSubmit.setForeground(new Color(255, 255, 255));
 		btnSubmit.setFont(new Font("Tahoma", Font.BOLD, 18));
@@ -187,7 +155,7 @@ public class StockAdd extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 
 			war_result = JOptionPane.showConfirmDialog(null, "Do you want to add this product!","warning",war_button);
-			if (validateAddProduct() == true) {
+		if (validateAddProduct() == true) {
 				
 				if (war_result == JOptionPane.YES_OPTION) {
 					
@@ -195,14 +163,14 @@ public class StockAdd extends JFrame {
 					setStoreText();
 			
 					productService.StockAddInsert(product);
+					txtProductID.setText(null);
+					txtProductName.setText(null);
+					txtUnitPrice.setText(null);
+					cmbCategory.setSelectedItem("Please Select...");
+					cmbColor.setSelectedItem("Please Select...");
+					cmbShape.setSelectedItem("Please Select...");
+					cmbStrenght.setSelectedItem("Please Select...");
 					
-					textField.setText(null);
-					textField_1.setText(null);
-					textField_2.setText(null);
-					textField_3.setText(null);
-					textField_4.setText(null);
-					textField_5.setText(null);
-					textField_6.setText(null);
 					}
 			}
 			else {
@@ -210,7 +178,7 @@ public class StockAdd extends JFrame {
 			}
 			}
 		});
-		btnSubmit.setBounds(1063, 543, 104, 36);
+		btnSubmit.setBounds(484, 555, 104, 36);
 		panel.add(btnSubmit);
 		
 		JButton btnCancle = new JButton("Cancle");
@@ -226,13 +194,13 @@ public class StockAdd extends JFrame {
 				
 			}
 		});
-		btnCancle.setBounds(931, 543, 104, 36);
+		btnCancle.setBounds(679, 555, 104, 36);
 		panel.add(btnCancle);
 		
-		textField_6 = new JTextField();
-		textField_6.setBounds(188, 103, 400, 36);
-		panel.add(textField_6);
-		textField_6.setColumns(10);
+		txtProductName = new JTextField();
+		txtProductName.setBounds(188, 103, 400, 50);
+		panel.add(txtProductName);
+		txtProductName.setColumns(10);
 		
 		JLabel lblNewLabel_6 = new JLabel("Shape");
 		lblNewLabel_6.setFont(new Font("Tahoma", Font.BOLD, 18));
@@ -243,6 +211,31 @@ public class StockAdd extends JFrame {
 		lblNewLabel_7.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		lblNewLabel_7.setBounds(617, 224, 60, 33);
 		panel.add(lblNewLabel_7);
+		
+		cmbCategory = new JComboBox();
+		cmbCategory.setModel(new DefaultComboBoxModel(new String[] {"Please Select...", "Mold", "Machine"}));
+		cmbCategory.setBounds(188, 344, 400, 50);
+		panel.add(cmbCategory);
+		
+		cmbShape = new JComboBox();
+		cmbShape.setModel(new DefaultComboBoxModel(new String[] {"Please select shape", "Block", "Dumble", "Cross Dumble", "Round Dumble", "Square", "Unipaver\t", "Cube", "Fan", "Wave", "Hexagon", "Trihex ", "Trihex Groove", "Mirror"}));
+		cmbShape.setBounds(679, 343, 400, 50);
+		panel.add(cmbShape);
+		
+		cmbColor = new JComboBox();
+		cmbColor.setModel(new DefaultComboBoxModel(new String[] {"Please select colour", "Natural", "Red", "Black", "Brown", "Yellow", "Blue", "White", "Green"}));
+		cmbColor.setBounds(188, 468, 400, 50);
+		panel.add(cmbColor);
+		
+		cmbStrenght = new JComboBox();
+		cmbStrenght.setModel(new DefaultComboBoxModel(new String[] {"Please select strenght", "10", "15", "20", "25", "30", "35", "40", "45", "50"}));
+		cmbStrenght.setBounds(679, 468, 400, 50);
+		panel.add(cmbStrenght);
+		
+		txtProductID = new JTextField();
+		txtProductID.setColumns(10);
+		txtProductID.setBounds(689, 103, 400, 50);
+		panel.add(txtProductID);
 		
 		JPanel panel_1 = new JPanel();
 		panel_1.setBackground(SystemColor.textHighlight);
@@ -261,8 +254,8 @@ public class StockAdd extends JFrame {
 		panel_2.setBounds(0, 80, 1245, 10);
 		contentPane.add(panel_2);
 		panel_2.setBackground(new Color(0, 0, 128));
+		
+		txtProductID.setText(id_Generator.product_ID_Generaor(productService.getProductID()));
+		
 	}
-	
-	
-
 }

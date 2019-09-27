@@ -107,6 +107,8 @@ public class Profile extends JFrame {
 	 * @throws ClassNotFoundException 
 	 */
 	public Profile(String eid) throws ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException {
+		setUndecorated(true);
+		setResizable(false);
 		IUserService iUserService = new UserService();
 		connection = DbConnect.getDBConnection();
 		User logUser = new User();	
@@ -151,7 +153,7 @@ public class Profile extends JFrame {
 		setIconImage(Toolkit.getDefaultToolkit().getImage(Profile.class.getResource("/profile-icon.png")));
 		setTitle("User Profile");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); 
-		setBounds(100, 100, 800, 512);
+		setBounds(100, 100, 793, 482);
 		contentPane = new JPanel();
 		contentPane.setBackground(new Color(255, 255, 255));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -614,6 +616,13 @@ public class Profile extends JFrame {
 		btnExit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				dispose();
+				try {
+					mainUI home = new mainUI(logUser.getEID());
+					home.setVisible(true);
+				} catch (ClassNotFoundException | InstantiationException | IllegalAccessException | SQLException e1) {
+					e1.printStackTrace();
+				}
+				
 			}
 		});
 		panel.add(btnExit);

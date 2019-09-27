@@ -5,6 +5,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 import com.model.*;
 import javax.swing.JOptionPane;
@@ -49,13 +50,28 @@ public class ProductService {
 		try {
 			
 			connection = DbConnect.getDBConnection();
-			String deleteProduct = "delete from product where product.productID = ?";
+			String deleteOrder = "DELETE FROM unic.product WHERE productID = ?";
 			
-			PreStatement = connection.prepareStatement(deleteProduct);
-			
+			PreStatement = connection.prepareStatement(deleteOrder);
 			PreStatement.setString(1, productID);
+			System.out.println(PreStatement);
 			PreStatement.executeUpdate();
+			
+			
+			
+			
+			
+//			preStatement = connection.prepareStatement(deleteOrder);
+//			preStatement.setString(1, orderID);
+//			preStatement.executeUpdate() ;
+			
+			
+			
 			JOptionPane.showMessageDialog(null, "Product  ID : " + productID + " Record Removed Successfully..");
+			
+			
+			
+			
 			
 		} catch (Exception e) {
 			
@@ -71,6 +87,58 @@ public class ProductService {
 		PreStatement.executeUpdate();
 		JOptionPane.showMessageDialog(null, "Record Update Successfully...");
 		
+	}
+	
+	public ArrayList<String> getProductID(){
+		ArrayList<String> productID_LIST = new ArrayList<String>();
+		
+		try {
+			String productID = "select p.productID from product as p";
+			connection = DbConnect.getDBConnection();
+			PreStatement = connection.prepareStatement(productID);
+			ResultSet productIDs = PreStatement.executeQuery();
+			
+			while (productIDs.next()) {
+				productID_LIST.add(productIDs.getString(1));	
+			}
+			
+		} catch (Exception e) {
+			// TODO: handle exception
+		}finally {
+			try {
+				if (PreStatement != null) {
+					PreStatement.close();
+				}
+				if(connection != null) {
+					connection.close();
+				}
+			}catch(SQLException e) {
+				
+			}finally {
+				
+				try {
+					
+					
+					if(PreStatement != null);{
+						
+						PreStatement.close();
+						
+					}
+					
+					if(connection != null) {
+						
+						connection.close();
+					}
+				
+				} catch (Exception e) {
+					
+				}
+			}
+		}
+		
+		return productID_LIST;
+		
+	
 	}
 
 }

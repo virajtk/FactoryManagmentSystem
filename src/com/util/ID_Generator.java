@@ -3,19 +3,53 @@ package com.util;
 import java.util.ArrayList;
 
 public class ID_Generator {
-	public static final String Shifting_ID_Letter= "S";
+	
 	public static String shiftingID;
 	public static int shiftingCunt;
 	
+	public static final String Shifting_ID_Letter= "S";
 	public static final String Client_ID_Letter= "C";
 	public static final String Order_ID_Letter= "O";
+	
+	
 
 	public static String clientID;
 	public static String orderID;
 	
+	
+	
 	public static int clientCnt;
 	public static int orderCnt;
 	
+	public static final String rawMaetID = "R";
+	public static String rawMatID;
+	public static int rawMatCount;
+	
+	
+	//Start
+	
+	public static final String Product_ID_Letter= "PR";
+	public static String productID;
+	public static int productCnt;
+	
+	
+	
+	public static String product_ID_Generaor(ArrayList<String> arrayList) {
+		
+		productCnt = arrayList.size();
+		
+		productCnt++;
+		productID = Product_ID_Letter+ String.format("%04d",productCnt);
+		
+		if (arrayList.contains(productID)) {
+			productCnt++;
+			productID = Product_ID_Letter+ String.format("%04d", productCnt);
+		}
+
+		return productID;
+
+	}
+	//End
 	
 	public static String clientID_Generator(ArrayList<String> arrayList) {
 		
@@ -61,6 +95,22 @@ public class ID_Generator {
 		}
 
 		return shiftingID;
+
+	}
+	
+	public static String raw_Mat_ID(ArrayList<String> arrayList) {
+		
+		rawMatCount = arrayList.size();
+		
+		rawMatCount++;
+		rawMatID = rawMaetID+ String.format("%04d",rawMatCount);
+		
+		if (arrayList.contains(rawMatCount)) {
+			rawMatCount++;
+			rawMatID = rawMaetID+ String.format("%04d", rawMatCount);
+		}
+
+		return rawMatID;
 
 	}
 	

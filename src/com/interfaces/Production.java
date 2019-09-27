@@ -68,7 +68,6 @@ public class Production extends JFrame {
 	private JTable table;
 	private JComboBox cmbMachine;
 	private JDateChooser dateChooser;
-	private JTextField eidNo;
 	private JTextField productionID;
 	private JTextField serachID;
 	
@@ -86,7 +85,7 @@ public class Production extends JFrame {
 		
 		
 		try {
-			String displayShow = "SELECT E.EID, E.FName,E.LName  FROM unic.user_main E";
+			String displayShow = "SELECT * FROM unic.production";
 			connection = DbConnect.getDBConnection();
 			preStatement = connection.prepareStatement(displayShow);
 			ResultSet displayTable = preStatement.executeQuery();
@@ -132,7 +131,7 @@ public class Production extends JFrame {
 	private void eidSelect() {
 		
 		int rowNumber = table.getSelectedRow();
-		eidNo.setText(table.getValueAt(rowNumber, 0).toString());
+		productionID.setText(table.getValueAt(rowNumber, 0).toString());
 	
 	}
 	
@@ -209,12 +208,13 @@ public class Production extends JFrame {
 		//dbConnect.getDBConnection();
 		
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setBounds(100, 100, 867, 607);
+		setBounds(100, 100, 855, 623);
 		contentPane = new JPanel();
 		contentPane.setBackground(new Color(255, 218, 185));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
+		this.setLocationRelativeTo(null);
 		
 		JLabel lblNoOfPieces = new JLabel("No. of pieces :");
 		lblNoOfPieces.setFont(new Font("Times New Roman", Font.BOLD, 16));
@@ -242,14 +242,40 @@ public class Production extends JFrame {
 		cmbMachine.setBounds(256, 494, 396, 20);
 		contentPane.add(cmbMachine);
 		
-		JScrollPane scrollPane_3 = new JScrollPane();
-		scrollPane_3.setBounds(257, 147, 395, 163);
-		contentPane.add(scrollPane_3);
+		JButton btnSubmit = new JButton("Submit");
+		btnSubmit.setForeground(Color.WHITE);
+		btnSubmit.setBackground(new Color(210, 105, 30));
+		btnSubmit.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				if (validateProductionFields() == true) {
+					table.setModel(new DefaultTableModel());
+				production.setProductionID(productionID.getText().toString());
+				production.setProductionDate(format.format(dateChooser.getDate()));
+				production.setNoOfPices(Integer.parseInt(txtNoOfPieces.getText()));
+				production.setMechineNo(Integer.parseInt(cmbMachine.getSelectedItem().toString()));
+				
+				Pservices.AddProduction(production);
+				productionID.setText(null);
+				table.setModel(new DefaultTableModel());	
+				txtNoOfPieces.setText(null);
+				dateChooser.setDate(null);
+				cmbMachine.setSelectedIndex(0);
+				
+				displayShowProduction();
+				} else {
+						JOptionPane.showMessageDialog(null, "Inserted details are wrong.");
+				}
+				
+				
+			}
+		});
 		
 		JScrollPane scrollPane_2 = new JScrollPane();
-		scrollPane_3.setViewportView(scrollPane_2);
+		scrollPane_2.setBounds(122, 108, 530, 218);
+		contentPane.add(scrollPane_2);
 		
 		table = new JTable();
+		scrollPane_2.setViewportView(table);
 		table.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
@@ -269,37 +295,9 @@ public class Production extends JFrame {
 				
 			}
 		});
-		scrollPane_2.setViewportView(table);
 		//table.getColumnModel().getColumn(1).setPreferredWidth(141);
 		table.setFont(new Font("Times New Roman", Font.PLAIN, 11));
 		table.setBorder(new MatteBorder(1, 1, 1, 1, (Color) SystemColor.textHighlight));
-		
-		JButton btnSubmit = new JButton("Submit");
-		btnSubmit.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				if (validateProductionFields() == true) {
-					table.setModel(new DefaultTableModel());
-				production.setProductionID(productionID.getText().toString());
-				production.setProductionDate(format.format(dateChooser.getDate()));
-				production.setNoOfPices(Integer.parseInt(txtNoOfPieces.getText()));
-				production.setMechineNo(Integer.parseInt(cmbMachine.getSelectedItem().toString()));
-				
-				Pservices.AddProduction(production);
-				productionID.setText(null);
-				eidNo.setText(null);
-				table.setModel(new DefaultTableModel());	
-				txtNoOfPieces.setText(null);
-				dateChooser.setDate(null);
-				cmbMachine.setSelectedIndex(0);
-				
-				displayShowProduction();
-				} else {
-						JOptionPane.showMessageDialog(null, "Inserted details are wrong.");
-				}
-				
-				
-			}
-		});
 		btnSubmit.setBounds(256, 534, 89, 23);
 		contentPane.add(btnSubmit);
 		
@@ -307,7 +305,7 @@ public class Production extends JFrame {
 		btnReset.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				refreshValue = 1;
-				eidNo.setText(null);
+		
 				table.setModel(new DefaultTableModel());	
 				txtNoOfPieces.setText(null);
 				dateChooser.setDate(null);
@@ -341,28 +339,19 @@ public class Production extends JFrame {
 		dateChooser.setBounds(256, 449, 396, 19);
 		contentPane.add(dateChooser);
 		
-		JLabel lblEid = new JLabel("EID : ");
-		lblEid.setFont(new Font("Times New Roman", Font.BOLD, 16));
-		lblEid.setBounds(123, 339, 123, 19);
-		contentPane.add(lblEid);
-		
-		eidNo = new JTextField();
-		eidNo.setEditable(false);
-		eidNo.setColumns(10);
-		eidNo.setBounds(256, 340, 396, 20);
-		contentPane.add(eidNo);
-		
 		JLabel lblProductionId = new JLabel("Production ID");
 		lblProductionId.setFont(new Font("Times New Roman", Font.BOLD, 16));
-		lblProductionId.setBounds(123, 369, 123, 19);
+		lblProductionId.setBounds(123, 358, 123, 19);
 		contentPane.add(lblProductionId);
 		
 		productionID = new JTextField();
 		productionID.setColumns(10);
-		productionID.setBounds(256, 371, 396, 20);
+		productionID.setBounds(256, 358, 396, 20);
 		contentPane.add(productionID);
 		
 		JButton btnNewButton = new JButton("Update");
+		btnNewButton.setForeground(Color.WHITE);
+		btnNewButton.setBackground(SystemColor.textHighlight);
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				
@@ -375,8 +364,7 @@ public class Production extends JFrame {
 				try {
 					Pservices.UpdateProduction(production);
 				} catch (ClassNotFoundException | InstantiationException | IllegalAccessException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+					JOptionPane.showMessageDialog(null, e.getMessage());
 				}
 				
 				
@@ -386,6 +374,8 @@ public class Production extends JFrame {
 		contentPane.add(btnNewButton);
 		
 		JButton btnNewButton_1 = new JButton("Remove");
+		btnNewButton_1.setForeground(Color.WHITE);
+		btnNewButton_1.setBackground(new Color(178, 34, 34));
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				try {
@@ -419,6 +409,21 @@ public class Production extends JFrame {
 		serachID.setColumns(10);
 		serachID.setBounds(256, 77, 396, 20);
 		contentPane.add(serachID);
+		
+		JButton btnDemo = new JButton("DEMO");
+		btnDemo.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				productionID.setText("P0004");
+				txtNoOfPieces.setText("350");
+				
+				
+			}
+		});
+		btnDemo.setForeground(new Color(178, 34, 34));
+		btnDemo.setFont(new Font("! PEPSI !", Font.PLAIN, 13));
+		btnDemo.setBounds(740, 46, 97, 25);
+		contentPane.add(btnDemo);
 		
 		
 		displayShow();

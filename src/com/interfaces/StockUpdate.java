@@ -30,14 +30,15 @@ import javax.swing.JTabbedPane;
 import javax.swing.JComboBox;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.event.ItemListener;
+import java.awt.event.ItemEvent;
 
 public class StockUpdate extends JFrame {
 
 	private JPanel contentPane;
-	private JTextField textField;
 	private JTextField textField_1;
 	private JTextField textField_2;
-	private JComboBox idComboBox ;
+	private JComboBox idComboBox,rawIDField ;
 	
 	private static Connection connection;
 	private PreparedStatement preparedStatement;
@@ -47,6 +48,44 @@ public class StockUpdate extends JFrame {
 	
 	private int war_button = JOptionPane.YES_NO_OPTION;
 	private int war_result;
+	
+	public void fillAllRawMaterials() {
+		try {
+			String rawID= "SELECT rawID FROM unic.raw_material;";
+			connection = DbConnect.getDBConnection();
+			preparedStatement = connection.prepareStatement(rawID);
+			ResultSet rawIDSet = preparedStatement.executeQuery();
+			
+			while (rawIDSet.next()) {
+				rawIDField.addItem(rawIDSet.getString("rawID"));
+
+			}
+			
+		} catch (Exception e) {
+			// TODO: handle exception
+		}finally {
+			
+			try {
+				
+				
+				if(preparedStatement != null);{
+					
+					preparedStatement.close();
+					
+				}
+				
+				if(connection != null) {
+					
+					connection.close();
+				}
+			
+			} catch (Exception e) {
+				
+			}
+		}
+	}
+
+	
 
 	private void updateQuantityText() {
 		
@@ -143,18 +182,13 @@ public boolean validateupdateStore() {
 		JPanel panel = new JPanel();
 		tabbedPane.addTab("Raw Material", null, panel, null);
 		panel.setLayout(null);
-		panel.setBackground(new Color(255, 222, 173));
+		panel.setBackground(new Color(255, 250, 205));
 		
 		JLabel lblRawMaterialId = new JLabel("Raw Material ID");
 		lblRawMaterialId.setHorizontalAlignment(SwingConstants.CENTER);
 		lblRawMaterialId.setFont(new Font("Tahoma", Font.BOLD, 18));
 		lblRawMaterialId.setBounds(234, 86, 169, 31);
 		panel.add(lblRawMaterialId);
-		
-		textField = new JTextField();
-		textField.setColumns(10);
-		textField.setBounds(540, 85, 203, 36);
-		panel.add(textField);
 		
 		JLabel lblDoYouSure = new JLabel("Do you sure update this quantities!");
 		lblDoYouSure.setFont(new Font("Tahoma", Font.PLAIN, 18));
@@ -163,6 +197,24 @@ public boolean validateupdateStore() {
 		panel.add(lblDoYouSure);
 		
 		JButton btnUpdate = new JButton("Update");
+		btnUpdate.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				try {
+				connection = DbConnect.getDBConnection();
+				String qUpdate = "UPDATE unic.supply SET amount = '"+textField_1.getText().toString()+"' WHERE rawID = '"+rawIDField.getSelectedItem().toString()+"'";
+	
+					preparedStatement = connection.prepareStatement(qUpdate);
+				
+				System.out.println(preparedStatement);
+				preparedStatement.executeUpdate();
+				JOptionPane.showMessageDialog(null, "Quantity Update Successfully...");
+				}catch (Exception e) {
+					// TODO: handle exception
+				}
+				
+				
+			}
+		});
 		btnUpdate.setBackground(new Color(30, 144, 255));
 		btnUpdate.setForeground(new Color(255, 255, 255));
 		btnUpdate.setFont(new Font("Tahoma", Font.BOLD, 18));
@@ -192,9 +244,72 @@ public boolean validateupdateStore() {
 		panel.add(lblNewLabel);
 		
 		textField_1 = new JTextField();
-		textField_1.setBounds(540, 155, 203, 36);
+		textField_1.setBounds(529, 155, 227, 36);
 		panel.add(textField_1);
 		textField_1.setColumns(10);
+		
+		rawIDField = new JComboBox();
+		rawIDField.addItemListener(new ItemListener() {
+			public void itemStateChanged(ItemEvent arg0) {
+				{
+//					try {
+//						String rawID= "SELECT amount FROM unic.supply where rawID = 'R0001'";
+//						connection = DbConnect.getDBConnection();
+//						preparedStatement = connection.prepareStatement(rawID);
+//						ResultSet rawIDSet = preparedStatement.executeQuery();
+//
+//							textField_1.setText(rawIDSet.getString("amount"));
+//
+//						
+//					} catch (Exception e) {
+//						// TODO: handle exception
+//					}finally {
+//						
+//						try {
+//							
+//							
+//							if(preparedStatement != null);{
+//								
+//								preparedStatement.close();
+//								
+//							}
+//							
+//							if(connection != null) {
+//								
+//								connection.close();
+//							}
+//						
+//						} catch (Exception e) {
+//							
+//						}
+//					}
+					
+					
+					try {
+						String OrderID_query = "SELECT * FROM unic.supply where rawID = '"+rawIDField.getSelectedItem().toString()+"'";
+						connection = DbConnect.getDBConnection();
+						preparedStatement = connection.prepareStatement(OrderID_query);
+						ResultSet resultSet = preparedStatement.executeQuery();
+						while (resultSet.next()) {
+							
+							textField_1.setText(resultSet.getString("amount"));	
+								//cmbProductType.setSelectedItem();
+
+						}
+						
+					} catch (Exception e) {
+						// TODO: handle exception
+					}
+					
+					
+					
+				}
+
+				
+			}
+		});
+		rawIDField.setBounds(529, 92, 227, 43);
+		panel.add(rawIDField);
 		
 		JPanel panel_3 = new JPanel();
 		panel_3.setBackground(new Color(255, 250, 205));
@@ -278,5 +393,7 @@ public boolean validateupdateStore() {
 		idComboBox.setBounds(530, 70, 169, 22);
 		panel_3.add(idComboBox);
 		showProductID3();
+		
+		fillAllRawMaterials();
 	}
 }

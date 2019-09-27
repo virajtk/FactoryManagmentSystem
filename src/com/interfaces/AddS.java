@@ -66,6 +66,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import javax.swing.SwingConstants;
+import java.awt.Label;
 
 
 public class AddS extends JFrame {
@@ -78,19 +79,17 @@ public class AddS extends JFrame {
 	
 
 	private JPanel contentPane;
-	private JTextField FirstName;
-	private JTextField CompanyN;
-	private JTextField Email;
-	private JTextField MobileNo;
-	private JTextField LastName;
-	private JTextField SupplierID;
-	private JTextField Search;
+	private JTextField sID;
 	private JTable table;
-	private JComboBox cmbMaterial;
-	private JTextArea Location;
-
-	
-	public void searchAndSort(String supID) {
+	private TextArea locat;
+	private JTextField fName;
+	private JTextField lName;
+	private JTextField cName;
+	private JTextField eMail;
+	private JTextField mNo;
+	private JComboBox rMaterial;
+	private JLabel validate1,validate2,validate3,validate4,validate5,validate6,validate7,validate8;
+	public void searchWithId(String supID) {
 		try {
 			String qu = "SELECT * FROM unic.supplier where supplierID like '"+"%"+supID+"%"+"'";
 			connection = DbConnect.getDBConnection();
@@ -98,7 +97,7 @@ public class AddS extends JFrame {
 			ResultSet supTable = preStatement.executeQuery();
 			table.setModel(DbUtils.resultSetToTableModel(supTable));
 		} catch (Exception e) {
-			// TODO: handle exception
+			
 		
 		}
 	}
@@ -113,7 +112,7 @@ public class AddS extends JFrame {
 			ResultSet supTable = preStatement.executeQuery();
 			table.setModel(DbUtils.resultSetToTableModel(supTable));
 		} catch (Exception e) {
-			// TODO: handle exception
+			
 		
 		}
 	}
@@ -121,19 +120,20 @@ public class AddS extends JFrame {
 	
 	public boolean validateSupplierFields() {
 		
-		boolean validate1 = cmbMaterial.getSelectedIndex() == 1 || cmbMaterial.getSelectedIndex() == 2;
-		boolean validate2 = SupplierID.getText().matches("^[A-Z0-9]*$") && SupplierID.getText().length() <= 5 ;
-		boolean validate3 = FirstName.getText().matches("^[a-zA-Z]*$") && FirstName.getText().length() > 2 ;
-		boolean validate4 = LastName.getText().matches("^[a-zA-Z]*$") && LastName.getText().length() > 2 ;
-		boolean validate5 = CompanyN.getText().matches("^[a-zA-Z]*$") && CompanyN.getText().length() > 2 ;
-		boolean validate6 = Email.getText().matches("^[a-zA-Z0-9]*$") &&  Email.getText().length() > 2 ;
-		boolean validate7 = MobileNo.getText().matches("^[0-9]*$") && MobileNo.getText().length() == 10;
-		boolean validate8 = Location.getText().matches("^[a-zA-Z0-9]*$") && Location.getText().length() > 2 ;
+		boolean validate8 = rMaterial.getSelectedIndex() == 1 || rMaterial.getSelectedIndex() == 2;
+		boolean validate1 = sID.getText().matches("^[A-Z0-9]*$") && sID.getText().length() <= 5 ;
+		boolean validate2= fName.getText().matches("^[a-zA-Z]*$") && fName.getText().length() > 2 ;
+		boolean validate3 = lName.getText().matches("^[a-zA-Z]*$") && lName.getText().length() > 2 ;
+		boolean validate4 = cName.getText().matches("^[a-zA-Z]*$") && cName.getText().length() > 2 ;
+		boolean validate5 = eMail.getText().matches("^[@ . a-zA-Z0-9]*$") &&  eMail.getText().length() > 2 ;
+		boolean validate6 = mNo.getText().matches("^[0-9]*$") && mNo.getText().length() == 10;
+		boolean validate7 = locat.getText().matches("^[a-zA-Z0-9]*$") && locat.getText().length() > 2 ;
 		
 		if (validate1 && validate2 && validate3 && validate4 && validate5 && validate6 && validate7 && validate8) {
 			
 			return true;
-		}else {
+		}
+		else {
 			return false;
 			
 		}
@@ -142,31 +142,25 @@ public class AddS extends JFrame {
 	
 	public void resetFields () {
 		
-		cmbMaterial.setSelectedItem(null);
-		SupplierID.setText(null);
-		FirstName.setText(null);
-		LastName.setText(null);
-		CompanyN.setText(null);
-		Email.setText(null);
-		MobileNo.setText(null);
-		Location.setText(null);
+		rMaterial.setSelectedItem(null);
+		sID.setText(null);
+		fName.setText(null);
+		lName.setText(null);
+		cName.setText(null);
+		eMail.setText(null);
+		mNo.setText(null);
+		locat.setText(null);
 		table.setModel(new DefaultTableModel());
 		
 	}
 	
 	
 	
-	/**
-	 * Launch the application.
-	 * @throws SQLException 
-	 * @throws IllegalAccessException 
-	 * @throws InstantiationException 
-	 * @throws ClassNotFoundException 
-	 */
+	
 	public static void main(String[] args) throws ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException {
 		
 		DbConnect db = new DbConnect();
-		//db.getDBConnection();
+		
 		
 		
 		EventQueue.invokeLater(new Runnable() {
@@ -196,27 +190,8 @@ public class AddS extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		Search = new JTextField();
-		Search.addKeyListener(new KeyAdapter() {
-			@Override
-			public void keyReleased(KeyEvent arg0) {
-				if (Search.getText().length() > 4) {
-					searchAndSort(Search.getText());
-				}
-			}
-		});
-		Search.setBackground(new Color(224, 255, 255));
-		Search.setBounds(540, 95, 103, 20);
-		contentPane.add(Search);
-		Search.setColumns(10);
-		
-		JLabel lblSearchSupplier = new JLabel("Search");
-		lblSearchSupplier.setFont(new Font("Calibri Light", Font.BOLD, 14));
-		lblSearchSupplier.setBounds(472, 94, 58, 20);
-		contentPane.add(lblSearchSupplier);
-		
 		JScrollPane scrollPane_1 = new JScrollPane();
-		scrollPane_1.setBounds(23, 431, 493, 162);
+		scrollPane_1.setBounds(23, 460, 493, 164);
 		contentPane.add(scrollPane_1);
 		
 		JScrollPane scrollPane = new JScrollPane();
@@ -230,14 +205,14 @@ public class AddS extends JFrame {
 					
 					int rowNumber = table.getSelectedRow();
 					
-					     SupplierID.setText(table.getValueAt(rowNumber, 0).toString());
-					    FirstName.setText(table.getValueAt(rowNumber, 1).toString());
-					     LastName.setText(table.getValueAt(rowNumber, 2).toString());
-					  Location.setText(table.getValueAt(rowNumber, 3).toString());
-					        CompanyN.setText(table.getValueAt(rowNumber, 4).toString());
-					Email.setText(table.getValueAt(rowNumber, 5).toString());
-					 MobileNo.setText(table.getValueAt(rowNumber, 6).toString());
-					 cmbMaterial.setSelectedItem(table.getValueAt(rowNumber, 7).toString());    
+					     sID.setText(table.getValueAt(rowNumber, 0).toString());
+					    fName.setText(table.getValueAt(rowNumber, 1).toString());
+					     lName.setText(table.getValueAt(rowNumber, 2).toString());
+					     locat.setText(table.getValueAt(rowNumber, 3).toString());
+					        cName.setText(table.getValueAt(rowNumber, 4).toString());
+					eMail.setText(table.getValueAt(rowNumber, 5).toString());
+					 mNo.setText(table.getValueAt(rowNumber, 6).toString());
+					 rMaterial.setSelectedItem(table.getValueAt(rowNumber, 7).toString());    
 	
 			}
 		});
@@ -247,12 +222,12 @@ public class AddS extends JFrame {
 		
 		JPanel panel = new JPanel();
 		panel.setBackground(SystemColor.textHighlight);
-		panel.setBounds(0, 0, 710, 68);
+		panel.setBounds(0, 0, 720, 68);
 		contentPane.add(panel);
 		panel.setLayout(null);
 		
 		JLabel lblSupplier = new JLabel("Supplier");
-		lblSupplier.setBounds(12, 13, 686, 42);
+		lblSupplier.setBounds(0, 0, 720, 68);
 		lblSupplier.setHorizontalAlignment(SwingConstants.CENTER);
 		lblSupplier.setForeground(new Color(255, 255, 255));
 		panel.add(lblSupplier);
@@ -260,29 +235,36 @@ public class AddS extends JFrame {
 		
 		JPanel panel_2 = new JPanel();
 		panel_2.setBackground(new Color(255, 250, 205));
-		panel_2.setBounds(0, 69, 710, 535);
+		panel_2.setBounds(0, 69, 720, 566);
 		contentPane.add(panel_2);
 		panel_2.setLayout(null);
 		
-		cmbMaterial = new JComboBox();
-		cmbMaterial.setBounds(206, 263, 245, 24);
-		panel_2.add(cmbMaterial);
-		cmbMaterial.setFont(new Font("Calibri Light", Font.BOLD, 14));
-		cmbMaterial.setBackground(new Color(204, 255, 255));
-		cmbMaterial.setModel(new DefaultComboBoxModel(new String[] {"", "Cement", "Chips", "CoriDust", "Pigments", "Metal", "Water"}));
-		cmbMaterial.setToolTipText("Raw Matirial Type");
-		
-		SupplierID = new JTextField();
-		SupplierID.addKeyListener(new KeyAdapter() {
+		sID = new JTextField();
+		sID.setBounds(206, 23, 246, 28);
+		sID.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyReleased(KeyEvent e) {
-				searchAndSort(SupplierID.getText());
+				searchWithId(sID.getText());
+				
+				if(sID.getText().matches("^[A-Z0-9]*$") && sID.getText().length() == 5)
+				{
+					
+					validate1.setEnabled(false);
+					validate1.setVisible(false);
+					
+				}
+				else {
+					validate1.setEnabled(true);
+					validate1.setVisible(true);
+					
+					
 			}
+			}
+		
 		});
-		SupplierID.setBounds(206, 32, 246, 20);
-		panel_2.add(SupplierID);
-		SupplierID.setBackground(new Color(224, 255, 255));
-		SupplierID.setColumns(10);
+		panel_2.add(sID);
+		sID.setBackground(Color.WHITE);
+		sID.setColumns(10);
 		
 		JLabel lblSupplierId = new JLabel("Supplier ID");
 		lblSupplierId.setBounds(115, 35, 85, 14);
@@ -290,136 +272,321 @@ public class AddS extends JFrame {
 		lblSupplierId.setFont(new Font("Calibri Light", Font.BOLD, 14));
 		
 		JLabel lblRawMatirialType = new JLabel("Raw Matirial Type ");
-		lblRawMatirialType.setBounds(62, 260, 134, 30);
+		lblRawMatirialType.setBounds(62, 341, 134, 30);
 		panel_2.add(lblRawMatirialType);
 		lblRawMatirialType.setFont(new Font("Calibri Light", Font.BOLD, 14));
-		
-		FirstName = new JTextField();
-		FirstName.setBounds(206, 63, 245, 20);
-		panel_2.add(FirstName);
-		FirstName.setBackground(new Color(224, 255, 255));
-		FirstName.setColumns(10);
 		
 		JLabel lblFullName = new JLabel("First Name ");
 		lblFullName.setBounds(115, 63, 93, 20);
 		panel_2.add(lblFullName);
 		lblFullName.setFont(new Font("Calibri Light", Font.BOLD, 14));
 		
-		LastName = new JTextField();
-		LastName.setBounds(207, 93, 245, 20);
-		panel_2.add(LastName);
-		LastName.setBackground(new Color(224, 255, 255));
-		LastName.setColumns(10);
-		
 		JLabel lblLastName = new JLabel("Last Name");
-		lblLastName.setBounds(115, 99, 71, 14);
+		lblLastName.setBounds(115, 107, 71, 14);
 		panel_2.add(lblLastName);
 		lblLastName.setFont(new Font("Calibri Light", Font.BOLD, 14));
 		
-		JLabel lblLocation = new JLabel("Location \r\n\r\n");
-		lblLocation.setBounds(125, 128, 67, 14);
-		panel_2.add(lblLocation);
-		lblLocation.setFont(new Font("Calibri Light", Font.BOLD, 14));
-		
-		Location = new JTextArea();
-		Location.setBounds(206, 123, 245, 36);
+		JLabel Location = new JLabel("Address");
+		Location.setBounds(133, 151, 67, 14);
 		panel_2.add(Location);
-		Location.setBackground(new Color(224, 255, 255));
-		Location.setForeground(UIManager.getColor("Button.foreground"));
-		
-		MobileNo = new JTextField();
-		MobileNo.setBounds(207, 232, 245, 20);
-		panel_2.add(MobileNo);
-		MobileNo.setBackground(new Color(224, 255, 255));
-		MobileNo.setColumns(10);
+		Location.setFont(new Font("Calibri Light", Font.BOLD, 14));
 		
 		JLabel lblMobileNo = new JLabel("Mobile No ");
-		lblMobileNo.setBounds(115, 238, 96, 14);
+		lblMobileNo.setBounds(115, 294, 96, 14);
 		panel_2.add(lblMobileNo);
 		lblMobileNo.setFont(new Font("Calibri Light", Font.BOLD, 14));
 		
-		Email = new JTextField();
-		Email.setBounds(207, 201, 245, 20);
-		panel_2.add(Email);
-		Email.setBackground(new Color(224, 255, 255));
-		Email.setColumns(10);
-		
 		JLabel lblEmail = new JLabel("Email ");
-		lblEmail.setBounds(144, 204, 42, 14);
+		lblEmail.setBounds(143, 267, 42, 14);
 		panel_2.add(lblEmail);
 		lblEmail.setFont(new Font("Calibri Light", Font.BOLD, 14));
 		
-		CompanyN = new JTextField();
-		CompanyN.setBounds(207, 170, 245, 20);
-		panel_2.add(CompanyN);
-		CompanyN.setBackground(new Color(224, 255, 255));
-		CompanyN.setColumns(10);
-		
 		JLabel lblCompanyName = new JLabel("Company Name ");
-		lblCompanyName.setBounds(88, 173, 112, 14);
+		lblCompanyName.setBounds(76, 222, 112, 14);
 		panel_2.add(lblCompanyName);
 		lblCompanyName.setFont(new Font("Calibri Light", Font.BOLD, 14));
 		
 		JPanel panel_1 = new JPanel();
-		panel_1.setBounds(0, 0, 710, 10);
+		panel_1.setBounds(0, 0, 720, 10);
 		panel_2.add(panel_1);
 		panel_1.setBackground(new Color(0, 0, 51));
 		
 		JButton btnDeleteSupplier = new JButton("Remove Supplier");
-		btnDeleteSupplier.setBounds(518, 316, 148, 32);
+		btnDeleteSupplier.setBounds(539, 511, 148, 32);
 		panel_2.add(btnDeleteSupplier);
 		btnDeleteSupplier.setForeground(new Color(255, 255, 255));
 		btnDeleteSupplier.setBackground(new Color(204, 0, 0));
 		btnDeleteSupplier.setFont(new Font("Tahoma", Font.BOLD, 12));
 		
 		JButton btnAddsupplier = new JButton("Add ");
-		btnAddsupplier.setBounds(88, 316, 148, 32);
+		btnAddsupplier.setBounds(539, 393, 148, 32);
 		panel_2.add(btnAddsupplier);
 		btnAddsupplier.setForeground(new Color(255, 255, 255));
 		btnAddsupplier.setBackground(SystemColor.textHighlight);
 		btnAddsupplier.setFont(new Font("Tahoma", Font.BOLD, 12));
 		
 		JButton btnUpdateSupplier = new JButton("Update Supplier");
-		btnUpdateSupplier.setBounds(306, 316, 148, 32);
+		btnUpdateSupplier.setBounds(539, 450, 148, 32);
 		panel_2.add(btnUpdateSupplier);
 		btnUpdateSupplier.setForeground(new Color(255, 255, 255));
 		btnUpdateSupplier.setBackground(new Color(210, 105, 30));
 		btnUpdateSupplier.setFont(new Font("Tahoma", Font.BOLD, 12));
 		
-		JButton btnRefresh = new JButton("Cancel");
-		btnRefresh.setBounds(549, 413, 130, 30);
-		panel_2.add(btnRefresh);
-		btnRefresh.setBackground(new Color(178, 34, 34));
-		btnRefresh.addActionListener(new ActionListener() {
+		JButton ResetFieldBtn = new JButton("Cancel");
+		ResetFieldBtn.setBounds(481, 344, 105, 30);
+		panel_2.add(ResetFieldBtn);
+		ResetFieldBtn.setBackground(new Color(178, 34, 34));
+		ResetFieldBtn.addActionListener(new ActionListener() {
+			
 			public void actionPerformed(ActionEvent arg0) {
+				
 				resetFields ();
-				//tableShow();
+				
+					}
+		});
+		ResetFieldBtn.setForeground(new Color(255, 255, 255));
+		ResetFieldBtn.setFont(new Font("Tahoma", Font.BOLD, 11));
+		
+		fName = new JTextField();
+		fName.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyReleased(KeyEvent arg0) {
+				if (fName.getText().matches("^[a-zA-Z]*$") && fName.getText().length() > 2) {
+			
+					validate2.setEnabled(false);
+					validate2.setVisible(false);	
+					
+				} else {
+					
+					validate2.setEnabled(true);
+					validate2.setVisible(true);
+					
+				}
 				
 			}
 		});
-		btnRefresh.setForeground(new Color(255, 255, 255));
-		btnRefresh.setFont(new Font("Tahoma", Font.BOLD, 11));
+		fName.setBounds(207, 65, 245, 24);
+		panel_2.add(fName);
+		fName.setColumns(10);
+		
+		JLabel lblNewLabel = new JLabel("New label");
+		lblNewLabel.setBounds(207, 65, 96, -13);
+		panel_2.add(lblNewLabel);
+		
+		validate1 = new JLabel("invalid Supplier Id");
+		validate1.setForeground(Color.RED);
+		validate1.setEnabled(false);
+		validate1.setBounds(207, 50, 130, 16);
+		panel_2.add(validate1);
+		
+		validate2 = new JLabel("Invalid First name");
+		validate2.setEnabled(false);
+		validate2.setForeground(Color.RED);
+		validate2.setBounds(207, 90, 130, 10);
+		panel_2.add(validate2);
+		
+		lName = new JTextField();
+		lName.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyReleased(KeyEvent arg0) {
+				if (lName.getText().matches("^[a-zA-Z]*$") && lName.getText().length() > 2) {
+					
+					validate3.setEnabled(false);
+					validate3.setVisible(false);	
+					
+				} else {
+					
+					validate3.setEnabled(true);
+					validate3.setVisible(true);
+					
+				}
+					
+			}
+		});
+		lName.setBounds(207, 102, 245, 22);
+		panel_2.add(lName);
+		lName.setColumns(10);
+		
+		validate3 = new JLabel("invalid Last name");
+		validate3.setEnabled(false);
+		validate3.setForeground(Color.RED);
+		validate3.setBounds(207, 125, 134, 16);
+		panel_2.add(validate3);
+		
+		locat = new TextArea();
+		locat.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyReleased(KeyEvent arg0) {
+				
+				if (locat.getText().matches("^[a-zA-Z0-9]*$") && locat.getText().length() > 2) {
+					
+					validate4.setEnabled(false);
+					validate4.setVisible(false);	
+					
+				} else {
+					
+					validate4.setEnabled(true);
+					validate4.setVisible(true);
+					
+				
+				}
+				
+				
+				
+			}
+		});
+		locat.setBounds(200, 146, 252, 43);
+		panel_2.add(locat);
+		
+		validate4 = new JLabel("Invalid Address");
+		validate4.setEnabled(false);
+		validate4.setForeground(Color.RED);
+		validate4.setBounds(207, 195, 130, 16);
+		panel_2.add(validate4);
+		
+		cName = new JTextField();
+		cName.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyReleased(KeyEvent arg0) {
+				
+				if (cName.getText().matches("^[a-zA-Z]*$") && cName.getText().length() > 2) {
+					
+					validate5.setEnabled(false);
+					validate5.setVisible(false);	
+					
+				} else {
+					
+					validate5.setEnabled(true);
+					validate5.setVisible(true);
+					
+				
+				}
+				
+				
+				
+			}
+		});
+		cName.setBounds(207, 217, 245, 22);
+		panel_2.add(cName);
+		cName.setColumns(10);
+		
+		validate5 = new JLabel("Invalid company name");
+		validate5.setEnabled(false);
+		validate5.setForeground(Color.RED);
+		validate5.setBounds(207, 235, 130, 16);
+		panel_2.add(validate5);
+		
+		eMail = new JTextField();
+		eMail.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyReleased(KeyEvent arg0) {
+				
+				if (eMail.getText().matches("^[@ . a-zA-Z0-9]*$") &&  eMail.getText().length() > 2) {
+					
+					validate6.setEnabled(false);
+					validate6.setVisible(false);	
+					
+				} else {
+					
+					validate6.setEnabled(true);
+					validate6.setVisible(true);
+					
+				}
+				
+			}
+		});
+		eMail.setBounds(207, 259, 245, 22);
+		panel_2.add(eMail);
+		eMail.setColumns(10);
+		
+		validate6 = new JLabel("Invalid email format");
+		validate6.setEnabled(false);
+		validate6.setForeground(Color.RED);
+		validate6.setBounds(207, 277, 130, 16);
+		panel_2.add(validate6);
+		
+		mNo = new JTextField();
+		mNo.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyReleased(KeyEvent arg0) {
+				
+				if (mNo.getText().matches("^[0-9]*$") && mNo.getText().length() == 10) {
+					
+					validate7.setEnabled(false);
+					validate7.setVisible(false);	
+					
+				} else {
+					
+					validate7.setEnabled(true);
+					validate7.setVisible(true);
+					
+					
+					
+				}
+				
+				
+			}
+		});
+		mNo.setBounds(207, 294, 245, 22);
+		panel_2.add(mNo);
+		mNo.setColumns(10);
+		
+		validate7 = new JLabel("Invalid mobile number");
+		validate7.setEnabled(false);
+		validate7.setForeground(Color.RED);
+		validate7.setBounds(207, 321, 130, 16);
+		panel_2.add(validate7);
+		
+		rMaterial = new JComboBox();
+		rMaterial.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyReleased(KeyEvent arg0) {
+				
+				if (rMaterial.getSelectedIndex() == 1 || rMaterial.getSelectedIndex() == 2) {
+					
+					validate8.setEnabled(false);
+					validate8.setVisible(false);	
+					
+				} else {
+					
+					validate8.setEnabled(true);
+					validate8.setVisible(true);
+					
+				}
+				
+			}
+		});
+		rMaterial.setModel(new DefaultComboBoxModel(new String[] {"please select....", "Metal", "Chips", "Pigmants", "CoriDust", "Cement", "Water"}));
+		rMaterial.setBounds(206, 344, 246, 22);
+		panel_2.add(rMaterial);
+		
+		validate8 = new JLabel("Select a one type");
+		validate8.setEnabled(false);
+		validate8.setForeground(Color.RED);
+		validate8.setBounds(206, 369, 131, 16);
+		panel_2.add(validate8);
+		
+		//update the supplier
 		btnUpdateSupplier.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				
-				smodel.setRawMaterialType(cmbMaterial.getSelectedItem().toString());
-				smodel.setSupplierId(SupplierID.getText());
-				smodel.setFirstName(FirstName.getText());
-				smodel.setLastName(LastName.getText());
-				smodel.setCompanyName(CompanyN.getText());
-				smodel.setEmail(Email.getText());
-				smodel.setMobileNo(MobileNo.getText());
-				smodel.setLocation(Location.getText());
+				smodel.setRawMaterialType(rMaterial.getSelectedItem().toString());
+				smodel.setSupplierId(sID.getText());
+				smodel.setFirstName(fName.getText());
+				smodel.setLastName(lName.getText());
+				smodel.setCompanyName(cName.getText());
+				smodel.setEmail(eMail.getText());
+				smodel.setMobileNo(mNo.getText());
+				smodel.setLocation(locat.getText());
 				
 				supplierSe.updateSupplier(smodel);
-				tableShow();
-				
-				
 				
 				resetFields();
+				tableShow();
 			}
 			
 		});
+		//add supplier
 		btnAddsupplier.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				
@@ -427,18 +594,19 @@ public class AddS extends JFrame {
 					
 				
 				
-				smodel.setRawMaterialType(cmbMaterial.getSelectedItem().toString());
-				smodel.setSupplierId(SupplierID.getText());
-				smodel.setFirstName(FirstName.getText());
-				smodel.setLastName(LastName.getText());
-				smodel.setCompanyName(CompanyN.getText());
-				smodel.setEmail(Email.getText());
-				smodel.setMobileNo(MobileNo.getText());
-				smodel.setLocation(Location.getText());
+				smodel.setRawMaterialType(rMaterial.getSelectedItem().toString());
+				smodel.setSupplierId(sID.getText());
+				smodel.setFirstName(fName.getText());
+				smodel.setLastName(lName.getText());
+				smodel.setCompanyName(cName.getText());
+				smodel.setEmail(eMail.getText());
+				smodel.setMobileNo(mNo.getText());
+				smodel.setLocation(locat.getText());
 				
 				supplierSe.addSupplier(smodel);
-				tableShow();
 				resetFields();
+				tableShow();
+				
 				}
 				else {
 					JOptionPane.showMessageDialog(null, "Please fill data correctly");
@@ -446,10 +614,12 @@ public class AddS extends JFrame {
 			}
 
 		});
+		
+		//delete supplier
 		btnDeleteSupplier.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				
-				smodel.setSupplierId(SupplierID.getText());
+				smodel.setSupplierId(sID.getText());
 				
 				supplierSe.removeSupplier(smodel);
 				tableShow();
@@ -457,8 +627,17 @@ public class AddS extends JFrame {
 				resetFields();
 			}
 		});
+		validate1.setVisible(false);
+		validate2.setVisible(false);
+		validate3.setVisible(false);
+		validate4.setVisible(false);
+		validate5.setVisible(false);
+		validate6.setVisible(false);
+		validate7.setVisible(false);
+		validate8.setVisible(false);
 		
-		//tableShow();
+		
 	}
+	
 	
 }

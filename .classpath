@@ -4,8 +4,15 @@
 	<classpathentry kind="con" path="net.sf.jasperreports.JR_CONTAINER"/>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="src" path="Images"/>
-	<classpathentry kind="lib" path="/Test/Resource/rs2xml.jar"/>
 	<classpathentry kind="lib" path="jcalendar-1.4.jar"/>
-	<classpathentry kind="lib" path="jasperreports.jar"/>
+	<classpathentry kind="lib" path="res poi/commons-codec-1.10.jar"/>
+	<classpathentry kind="lib" path="res poi/commons-collections4-4.1.jar"/>
+	<classpathentry kind="lib" path="res poi/curvesapi-1.04.jar"/>
+	<classpathentry kind="lib" path="res poi/poi-3.17.jar"/>
+	<classpathentry kind="lib" path="res poi/poi-ooxml-3.17.jar"/>
+	<classpathentry kind="lib" path="res poi/poi-ooxml-schemas-3.17.jar"/>
+	<classpathentry kind="lib" path="res poi/stax-api-1.0.1.jar"/>
+	<classpathentry kind="lib" path="res poi/xmlbeans-2.6.0.jar"/>
+	<classpathentry kind="lib" path="resources/rs2xml.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

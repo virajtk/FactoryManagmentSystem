@@ -29,7 +29,7 @@ public class ProductionServices {
 			preStatement.setLong(2, productionM.getNoOfPices());
 			preStatement.setString(3, productionM.getProductionDate());
 			preStatement.setInt(4, productionM.getMechineNo());
-			System.out.println(preStatement);
+			//System.out.println(preStatement);
 			preStatement.executeUpdate();
 			JOptionPane.showMessageDialog(null,"Details are sucessfull inserted.");
 			
@@ -50,7 +50,7 @@ public class ProductionServices {
 			String deleteProduction = "DELETE FROM unic.production WHERE (productionID = '"+productionID+"')";
 			
 			preStatement = connection.prepareStatement(deleteProduction);
-			System.out.println(preStatement);
+			//System.out.println(preStatement);
 			preStatement.executeUpdate();
 			JOptionPane.showMessageDialog(null, productionID+"Sucessfully removed");
 			

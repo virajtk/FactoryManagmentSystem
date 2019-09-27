@@ -72,7 +72,7 @@ public void updateRawMaterial(RawMaterial rawM) {
 	try {
 		
 		connection = DbConnect.getDBConnection();
-		String updateRawMaterial = "UPDATE unic.supply SET   = '"+rawM.getRawMaterialId()+"', supplierID = '"+rawM.getSupplierId()+"', pricePerUnit = '"+rawM.getPricePerUnit()+"', orderDate = '"+rawM.getOrderedDate()+"', recievedDate = '"+rawM.getRecievedDate()+"', totalCost = '"+rawM.getTotalCost()+"', amount = '"+rawM.getQuantity()+"' WHERE (rawID = '"+rawM.getRawMaterialId()+"')";
+		String updateRawMaterial = "UPDATE unic.supply SET rawID = '"+rawM.getRawMaterialId()+"', supplierID = '"+rawM.getSupplierId()+"', pricePerUnit = '"+rawM.getPricePerUnit()+"', orderDate = '"+rawM.getOrderedDate()+"', recievedDate = '"+rawM.getRecievedDate()+"', totalCost = '"+rawM.getTotalCost()+"', amount = '"+rawM.getQuantity()+"' WHERE (rawID = '"+rawM.getRawMaterialId()+"')";
 
 		
 		preStatement = connection.prepareStatement(updateRawMaterial);

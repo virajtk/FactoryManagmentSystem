@@ -167,6 +167,7 @@ public class VehicleManage extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
+		this.setLocationRelativeTo(null);
 		
 		JScrollPane scrollPane = new JScrollPane();
 		
@@ -174,6 +175,7 @@ public class VehicleManage extends JFrame {
 		contentPane.add(scrollPane);
 		
 		table_1 = new JTable();
+		table_1.setRowHeight(25);
 		table_1.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {

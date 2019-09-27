@@ -20,8 +20,8 @@ public class TransportService{
 		try {
 			connection  = DbConnect.getDBConnection();
 			
-			String addTransport = "insert into transport(transportID, orderID, vehicleID, driverID, TransportDate) values(?,?,?,?,?)";
-			System.out.println(addTransport);
+			String addTransport = "insert into transport(transportID, orderID, vehicleID, driverID, date) values(?,?,?,?,?)";
+			//System.out.println(addTransport);
 			preStatement = connection.prepareStatement(addTransport);
 			
 			preStatement.setString(1, transportModel.getTransportID());
@@ -30,18 +30,18 @@ public class TransportService{
 			preStatement.setString(4, transportModel.getDriverID());
 			preStatement.setString(5, transportModel.getDate());
 			
-			System.out.println(preStatement);
+			//System.out.println(preStatement);
 			preStatement.executeUpdate();
 			JOptionPane.showMessageDialog(null, "Transport Inserted Succesfully!");
 			
-			connection.commit();
+			//connection.commit();
 			
 			
 			
 			
 			
 		} catch (Exception e) {
-			JOptionPane.showMessageDialog(null, e);
+			//JOptionPane.showMessageDialog(null, e);
 		}
 	}
 	public ArrayList<String> transportID(){
@@ -73,6 +73,55 @@ public class TransportService{
 		}
 		
 		return transportID_List;
+	}
+	public ArrayList<String> vehicleID(){
+		ArrayList<String> vehicleID_List = new ArrayList<String>();
+		
+		try {
+			String vehicleID_query = "select vehicleID from unic.vehicle";
+			connection = DbConnect.getDBConnection();
+			preStatement = connection.prepareStatement(vehicleID_query);
+			ResultSet vehicleIDs = preStatement.executeQuery();
+			
+			while (vehicleIDs.next()) {
+				vehicleID_List.add(vehicleIDs.getString(1));	
+			}
+			
+		} catch (Exception e) {
+			// TODO: handle exception
+		}finally {
+			try {
+				if (preStatement != null) {
+					preStatement.close();
+				}
+				if(connection != null) {
+					connection.close();
+				}
+			}catch(SQLException e) {
+				
+			}
+		}
+		
+		return vehicleID_List;
+	}
+	public void removeTransport(TransportModel transportModel) {
+		try {
+			connection  = DbConnect.getDBConnection();
+			
+			String removeTransport = "DELETE FROM unic.transport WHERE transportID = ? ";
+			
+			preStatement = connection.prepareStatement(removeTransport);
+			
+			preStatement.setString(1, transportModel.getTransportID());
+			
+			preStatement.executeUpdate();
+			JOptionPane.showMessageDialog(null, "Transport Deleted Succesfully!");
+			
+			//connection.commit();
+			
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(null, e);
+		}
 	}
 
 	
